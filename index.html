@@ -1,0 +1,775 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Leke - Tienda</title>
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&amp;display=swap" rel="stylesheet"/>
+<style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'League Spartan', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .product {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      border: 1px solid #fff;
+    }
+    .product img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+    }
+    .info {
+      flex-grow: 1;
+      padding: 10px;
+    }
+    .info p {
+      font-size: 14px;
+      margin: 5px 0;
+    }
+    .form-section {
+      margin-top: 40px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      font-family: inherit;
+      margin-top: 5px;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 15px;
+      width: 100%;
+      font-size: 18px;
+      font-weight: bold;
+      background-color: #fff;
+      color: #000;
+      border: none;
+      cursor: pointer;
+    }
+  
+#cart {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  padding: 10px;
+  font-size: 14px;
+  max-height: 40vh;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 -2px 5px rgba(255,255,255,0.2);
+}
+#cart h2 {
+  margin-top: 0;
+  font-size: 16px;
+}
+#cartItems li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2px 0;
+}
+.remove-btn {
+  background: #ff4444;
+  border: none;
+  color: white;
+  padding: 2px 6px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 12px;
+}
+#notification {
+  position: fixed;
+  bottom: 45vh;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  display: none;
+  font-size: 14px;
+  z-index: 1001;
+}
+@media screen and (max-width: 600px) {
+  #cart {
+    font-size: 12px;
+  }
+}
+
+.remove-btn {
+  background: #ff4444;
+  border: none;
+  color: white;
+  padding: 1px 4px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 10px;
+  margin-left: 10px;
+}
+
+#carritoContainer button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+}
+#carritoDetalle {
+  display: none;
+  margin-top: 10px;
+  border: 1px solid #fff;
+  padding: 12px;
+  text-align: center;
+}
+#cartItems {
+  padding: 0;
+  margin: 0;
+}
+#cartItems li {
+  list-style: none;
+  margin: 6px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+.remove-btn {
+  background: #ff4444;
+  border: none;
+  color: white;
+  padding: 2px 6px;
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 10px;
+  line-height: 1;
+  margin-left: 10px;
+  min-width: 20px;
+  height: 20px;
+  text-align: center;
+}
+#totalPedido {
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#cartItems li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #111;
+  padding: 6px 10px;
+  border-radius: 5px;
+  margin: 6px 0;
+}
+.cart-item-text {
+  flex: 1;
+  text-align: left;
+  color: #fff;
+  font-size: 14px;
+}
+.remove-btn {
+  background: #ff4444;
+  border: none;
+  color: white;
+  width: 22px;
+  height: 22px;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+#cartItems li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #111;
+  padding: 8px 12px;
+  border-radius: 5px;
+  margin: 6px 0;
+  font-size: 14px;
+}
+.cart-item-text {
+  flex: 1;
+  text-align: left;
+  color: #fff;
+  font-size: 14px;
+}
+.remove-btn {
+  background: #ff4444;
+  border: none;
+  color: white;
+  width: 22px;
+  height: 22px;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+#cartItems li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #111;
+  padding: 6px 8px;
+  border-radius: 5px;
+  margin: 4px 0;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cart-item-text {
+  flex: 1;
+  text-align: left;
+  color: #fff;
+  font-size: 14px;
+  padding-right: 10px;
+}
+.remove-btn {
+  background: #ff4444;
+  border: none;
+  color: white;
+  width: 22px;
+  height: 22px;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
+  border-radius: 3px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.remove-btn {
+  background: #ff4444;
+  border: none;
+  color: white;
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Botón de eliminar más pequeño como en el boceto */
+.remove-btn {
+  background: #ff4444;
+  border: none;
+  color: white;
+  width: 18px;
+  height: 18px;
+  font-size: 10px;
+  line-height: 16px;
+  text-align: center;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Botón X aún más compacto */
+.remove-btn {
+  background: #ff4444;
+  border: none;
+  color: white;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  line-height: 16px;
+  text-align: center;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Aseguramos que el <li> no se estire y que el botón permanezca compacto y alineado */
+#cartItems li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #111;
+  padding: 4px 8px;
+  border-radius: 5px;
+  margin: 4px 0;
+  font-size: 14px;
+  height: auto;
+  min-height: 28px;
+  line-height: 1.2;
+}
+
+.cart-item-text {
+  flex: 1;
+  text-align: left;
+  color: #fff;
+  font-size: 14px;
+  padding-right: 6px;
+  display: flex;
+  align-items: center;
+}
+
+.remove-btn {
+  background: #ff4444;
+  border: none;
+  color: white;
+  width: 16px;
+  height: 16px;
+  font-size: 12px;
+  text-align: center;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Botón X minimalista visualmente, sin exceso de caja ni fondo blanco */
+.remove-btn {
+  all: unset;
+  cursor: pointer;
+  color: #ff4444;
+  font-size: 16px;
+  margin-left: 10px;
+  display: inline-block;
+  line-height: 1;
+}
+.remove-btn:hover {
+  color: #ff0000;
+}
+
+/* Estilo del nuevo botón 'Eliminar' */
+.remove-btn {
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 2px 6px;
+  cursor: pointer;
+  margin-left: 10px;
+  white-space: nowrap;
+  display: inline-block;
+}
+.remove-btn:hover {
+  background-color: #cc0000;
+}
+#cartItems li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #111;
+  padding: 4px 8px;
+  border-radius: 5px;
+  margin: 4px 0;
+  font-size: 14px;
+}
+.cart-item-text {
+  flex: 1;
+  text-align: left;
+  color: #fff;
+}
+
+.remove-btn {
+  background-color: #ff4444 !important;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 2px 6px;
+  cursor: pointer;
+  margin-left: 10px;
+  white-space: nowrap;
+  display: inline-block;
+}
+.remove-btn:hover {
+  background-color: #cc0000 !important;
+}
+
+#cartItems {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#cartItems li {
+  width: 100%;
+  max-width: 500px;
+}
+.cart-item-text {
+  text-align: center !important;
+}
+
+.remove-btn {
+  width: 80px; /* ancho fijo */
+  text-align: center;
+}
+
+/* Corregimos para forzar ancho y altura uniforme de los botones "Eliminar" */
+#cartItems li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #111;
+  padding: 6px 10px;
+  border-radius: 5px;
+  margin: 6px 0;
+  font-size: 14px;
+  width: 100%;
+  max-width: 520px;
+  box-sizing: border-box;
+}
+
+.cart-item-text {
+  flex-grow: 1;
+  color: #fff;
+  padding-right: 10px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.remove-btn {
+  background-color: #ff4444 !important;
+  color: white !important;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  padding: 5px 12px;
+  cursor: pointer;
+  display: inline-block;
+  width: 90px;
+  height: 34px;
+  text-align: center;
+  line-height: 24px;
+  box-sizing: border-box;
+}
+
+#cartItems li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #111;
+  padding: 6px 10px;
+  border-radius: 5px;
+  margin: 6px 0;
+  font-size: 14px;
+  width: 100%;
+  max-width: 520px;
+  box-sizing: border-box;
+  gap: 10px;
+}
+
+.cart-item-text {
+  flex-grow: 1;
+  color: #fff;
+  padding-right: 10px;
+  text-align: left;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.remove-btn {
+  background-color: #ff4444 !important;
+  color: white !important;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  padding: 5px 12px;
+  cursor: pointer;
+  width: 90px;
+  height: 34px;
+  text-align: center;
+  line-height: 24px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+#cartItems li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  background-color: #111;
+  padding: 6px 12px;
+  border-radius: 5px;
+  margin: 6px 0;
+  font-size: 14px;
+  width: 100%;
+  max-width: 520px;
+  box-sizing: border-box;
+  gap: 10px;
+}
+
+.cart-item-text {
+  color: #fff;
+  font-size: 13px;
+  text-align: left;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.remove-btn {
+  background-color: #ff4444 !important;
+  color: white !important;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  padding: 5px 12px;
+  cursor: pointer;
+  width: 90px;
+  height: 34px;
+  text-align: center;
+  line-height: 24px;
+  box-sizing: border-box;
+}
+</style>
+</head>
+<body><div id="notification">Se agregó al carrito</div>
+<div class="container">
+<h1 style="font-family: Tahoma, sans-serif; font-weight: bold;">Leke</h1>
+<form id="orderForm">
+<div id="products"></div>
+<div class="form-section">
+<div id="carritoContainer" style="margin-top: 20px;">
+<button onclick="toggleCarrito()" style="width: 100%; padding: 10px; font-size: 16px; font-weight: bold; background: #fff; color: #000; border: none; border-radius: 5px; text-align: center;" type="button">🛒 Ver pedido</button>
+<div id="carritoDetalle" style="display:none; margin-top:10px; border: 1px solid #fff; padding: 10px; text-align:center;">
+<ul id="cartItems" style="list-style:none; padding:0;"></ul>
+<p id="totalPedido" style="margin-top:10px;"><strong>Total: $0</strong></p>
+</div>
+</div><label>Nombre</label>
+<input id="name" required="" type="text"/>
+<label>Dirección</label>
+<input id="address" required="" type="text"/>
+<label>Entre calles</label>
+<input id="cross" required="" type="text"/>
+<label>Aclaraciones</label>
+<textarea id="notes" rows="2"></textarea>
+<label>Método de pago</label>
+<select id="paymentMethod" required="">
+<option value="">Elegí una opción</option>
+<option value="efectivo">Efectivo</option>
+<option value="transferencia">Transferencia</option>
+</select>
+<button style="background-color: #25D366; color: #fff; font-weight: bold; font-size: 18px; padding: 15px; width: 100%; border: none; border-radius: 5px; margin-top: 20px;" type="submit">Enviar pedido por WhatsApp</button>
+</div>
+</form>
+</div>
+<script>
+const productsData = [
+  {
+    name: "Pan integral",
+    description: "Pan integral, elaborado artesanalmente. Ideal para desayunos y meriendas. Se conserva en heladera (9 días) o freezer (3 meses). Peso: 600g.",
+    image: "https://leke.shopzero.app/_next/image?url=https%3A%2F%2Fd2m59cexm59ejd.cloudfront.net%2Fstores%2Fleke%2F5Evp33tzp0QM5Pmi9PwMa&w=1920&q=75",
+    options: [
+      "Unidad $3000",
+      "Unidad cortado $4000",
+      "Promo 3 unidades $8000",
+      "Promo 3 unidades cortadas $10500"
+    ]
+  },
+  {
+    name: "Prepizza integral",
+    description: "Pre pizza integral de tomate. Cocinar 5 min con queso + toppings. Freezer: 3 meses.",
+    image: "https://leke.shopzero.app/_next/image?url=https%3A%2F%2Fd2m59cexm59ejd.cloudfront.net%2Fstores%2Fleke%2FCPxM03uKxyUI3rPS2RycB&w=1920&q=75",
+    options: [
+      "Unidad $2700",
+      "Promo 5 unidades $12000"
+    ]
+  },
+  {
+    name: "Premezcla bizcochuelo de chocolate",
+    description: "Mezclar con 1½ taza de leche y ¼ taza de aceite. Agregar frutas o nueces opcional. Hornear 45 min a 180°C.",
+    image: "https://leke.shopzero.app/_next/image?url=https%3A%2F%2Fd2m59cexm59ejd.cloudfront.net%2Fstores%2Fleke%2F4fWf3hOJyNDydF59Wu_Zw&w=1920&q=75",
+    options: [
+      "Unidad $3300"
+    ]
+  },
+  {
+    name: "Chipa congelado",
+    description: "Chipa de 30g c/u. Aprox. 35 por kilo. Hornear 20 min a 220°C sin descongelar.",
+    image: "https://leke.shopzero.app/_next/image?url=https%3A%2F%2Fd2m59cexm59ejd.cloudfront.net%2Fstores%2Fleke%2FdTaEtNltc21gUTANBF2W6&w=1920&q=75",
+    options: [
+      "1 kg $9800",
+      "4 kg $36000",
+      "7 kg $59500",
+      "10 kg $79000"
+    ]
+  },
+  {
+    name: "Chipa sandwich",
+    description: "Hornear 20 min a 220°C. Dejar enfriar 5 min antes de cortar. Ideal para rellenar con lo que más te guste.",
+    image: "https://leke.shopzero.app/_next/image?url=https%3A%2F%2Fd2m59cexm59ejd.cloudfront.net%2Fstores%2Fleke%2FxzmuHqSrJaEFcoqn8cPI8&w=1920&q=75",
+    options: [
+      "10 unidades $17500",
+      "50 unidades $77500"
+    ]
+  },
+  {
+    name: "Cookielada",
+    description: "Tubo de cookies congeladas de avena, chocolate y nuez. Cortar y hornear 15-20 min a 180°C.",
+    image: "https://leke.shopzero.app/_next/image?url=https%3A%2F%2Fd2m59cexm59ejd.cloudfront.net%2Fstores%2Fleke%2FfPjiR5IWTbWfgyTYfWiPv&w=1920&q=75",
+    options: [
+      "Unidad $6000",
+      "Promo 4 unidades $20000"
+    ]
+  }
+];
+
+const container = document.getElementById("products");
+let cart = [];
+
+
+
+productsData.forEach((prod, i) => {
+  const div = document.createElement("div");
+  div.className = "product";
+  div.innerHTML = `
+    <img src="${prod.image}" alt="${prod.name}">
+    <div class="info">
+      <p><strong>${prod.name}</strong></p>
+      <p>${prod.description}</p>
+      <label>Opción</label>
+      <select id="product${i}">
+        <option value="">Elegí una opción</option>
+        ${prod.options.map(opt => `<option value="${opt}">${opt}</option>`).join("")}
+      </select>
+      <label>Cantidad</label>
+      <select id="qty${i}">
+        ${[...Array(10)].map((_, n) => `<option value="${n+1}">${n+1}</option>`).join("")}
+      </select>
+      <button type="button" onclick="addToCart(${i})">Agregar al carrito</button>
+    </div>
+  `;
+  container.appendChild(div);
+});
+
+document.getElementById("orderForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  if (cart.length === 0) {
+    alert("Agregá al menos un producto al carrito.");
+    return;
+  }
+
+  let message = "Hola! Quiero hacer un pedido:%0A";
+  let total = 0;
+
+  cart.forEach(item => {
+    message += `- ${item.option} x${item.qty}%0A`;
+    const price = parseInt(item.option.split("$")[1].replace(/[^0-9]/g, ""));
+    total += price * item.qty;
+  });
+
+  message += `%0A🧾 Total: $${total}%0A`;
+  message += `🧍 Nombre: ${document.getElementById("name").value}%0A`;
+  message += `📍 Dirección: ${document.getElementById("address").value}%0A`;
+  message += `🚧 Entre calles: ${document.getElementById("cross").value}%0A`;
+  message += `📝 Aclaraciones: ${document.getElementById("notes").value}%0A`;
+  const payment = document.getElementById("paymentMethod").value;
+  message += `💳 Método de pago: ${payment}%0A`;
+  if (payment === "transferencia") {
+    message += `%0ADatos para transferir:%0A🔸 Alias: leke.arg%0A🔸 Titular: Brenda de Oar%0A`;
+  }
+
+  window.open(`https://wa.me/541153107714?text=${message}`, "_blank");
+});
+
+function showNotification() {
+  const notif = document.getElementById("notification");
+  notif.style.display = "block";
+  setTimeout(() => notif.style.display = "none", 2000);
+}
+
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  updateCartUI();
+}
+
+
+function toggleCarrito() {
+  const detalle = document.getElementById("carritoDetalle");
+  detalle.style.display = detalle.style.display === "none" ? "block" : "none";
+}
+
+
+function addToCart(index) {
+  const prod = productsData[index];
+  const option = document.getElementById("product" + index).value;
+  const qty = parseInt(document.getElementById("qty" + index).value);
+  if (!option) return alert("Seleccioná una opción válida.");
+  cart.push({ name: prod.name, option, qty });
+  updateCartUI();
+  showNotification();
+}
+
+
+
+
+function updateCartUI() {
+  const cartList = document.getElementById("cartItems");
+  const totalText = document.getElementById("totalPedido");
+  cartList.innerHTML = "";
+  let total = 0;
+  cart.forEach((item, index) => {
+    const price = parseInt(item.option.split("$")[1].replace(/[^0-9]/g, ""));
+    total += price * item.qty;
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <span class='cart-item-text'>${item.name} x${item.qty} ${item.option}</span>
+      <button class='remove-btn' onclick='removeFromCart(${index})'>Eliminar</button>`;
+    cartList.appendChild(li);
+  });
+  totalText.innerHTML = `<strong>Total: $${total}</strong>`;
+}
+</script>
+</body>
+</html>
