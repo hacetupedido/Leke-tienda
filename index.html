@@ -706,7 +706,7 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
   let total = 0;
 
   cart.forEach(item => {
-    message += `- ${item.option} x${item.qty}%0A`;
+    message += `- ${item.name} ${item.option} x${item.qty}%0A`;
     const price = parseInt(item.option.split("$")[1].replace(/[^0-9]/g, ""));
     total += price * item.qty;
   });
