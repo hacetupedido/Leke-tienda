@@ -612,6 +612,18 @@ button:hover {
     height: auto;
   }
 }
+        /* Grid de productos en desktop */
+@media screen and (min-width: 900px) {
+  .products {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+
+  .product {
+    margin-bottom: 0;
+  }
+}
 </style>
 </head>
 <body><div id="notification">Se agregó al carrito</div>
@@ -620,7 +632,7 @@ button:hover {
   <img src="https://i.imgur.com/Rnt7Mqo.png" alt="Leke">
 </div>
 <form id="orderForm">
-<div id="products"></div>
+<div id="products" class="products"></div>
 <div class="form-section">
 <div id="carritoContainer" style="margin-top: 20px;">
 <button onclick="toggleCarrito()" style="width: 100%; padding: 10px; font-size: 16px; font-weight: bold; background: #fff; color: #000; border: none; border-radius: 5px; text-align: center;" type="button">🛒 Ver pedido</button>
@@ -670,6 +682,14 @@ const productsData = [
     image: "https://i.imgur.com/p4ATDzt.jpeg",
     options: [
       "Unidad $6500",
+    ]
+  },
+  {
+      name: "Box cookies con dip de chocolate",
+    description: "Incluye 15 cookies + dip de salsa de chocolate. Ideal para compartir",
+    image: "https://i.imgur.com/p4ATDzt.jpeg",
+    options: [
+      "Unidad $15000",
     ]
   },
   {
