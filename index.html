@@ -193,6 +193,50 @@ button:hover {
   color: #4A4A4A;
   text-align: right;
 }
+/* ===== FIX DEFINITIVO TEXTO CARRITO ===== */
+
+#cartItems li {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.cart-item-text {
+  flex: 1;
+  min-width: 0;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+/* ===== MENSAJE "SE AGREGÓ AL CARRITO" ===== */
+
+#notification {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #4CAF50;
+  color: white;
+  padding: 14px 22px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  display: none;
+  z-index: 9999;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+#cartItems li {
+  display: flex;
+  align-items: flex-start;
+}
+
+.cart-item-text {
+  flex: 1;
+  min-width: 0;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
 
 </style>
 </head>
