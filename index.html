@@ -612,18 +612,20 @@ button:hover {
     height: auto;
   }
 }
-        /* Grid de productos en desktop */
-@media screen and (min-width: 900px) {
-  .products {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
-  }
-
-  .product {
-    margin-bottom: 0;
-  }
+      .category-header {
+  background: #FFFFFF;
+  border: 1px solid #D6CBE8;
+  border-radius: 10px;
+  padding: 14px;
+  margin: 16px 0 8px;
+  font-weight: 600;
+  cursor: pointer;
 }
+
+.category-content {
+  display: none;
+}
+  
 </style>
 </head>
 <body><div id="notification">Se agregó al carrito</div>
@@ -662,6 +664,7 @@ button:hover {
 const productsData = [
      {
     name: "Cookie New York Oreo",
+    category: "Cookies",
     description: "Con chips de chocolate y relleno con galletita oreo.",
     image: "https://i.imgur.com/7oW14Of.jpeg",
     options: [
@@ -670,6 +673,7 @@ const productsData = [
   },
     {
     name: "Cookie New York 3 chocolates",
+    category: "Cookies",
     description: "Con chips de chocolate semiamargo, blanco y con leche",
     image: "https://i.imgur.com/sEt8Pjt.jpeg",
     options: [
@@ -678,6 +682,7 @@ const productsData = [
   },
     {
     name: "Cookie New York de Pistacho",
+    category: "Cookies",
     description: "Con pistachos picados y rellena con pasta de pistacho.",
     image: "https://i.imgur.com/p4ATDzt.jpeg",
     options: [
@@ -685,7 +690,8 @@ const productsData = [
     ]
   },
   {
-      name: "Box cookies con dip de chocolate",
+    name: "Box cookies con dip de chocolate",
+    category: "Cookies",
     description: "Incluye 15 cookies + dip de salsa de chocolate. Ideal para compartir",
     image: "https://i.imgur.com/p4ATDzt.jpeg",
     options: [
@@ -694,6 +700,7 @@ const productsData = [
   },
   {
     name: "Pan integral",
+    category: "Productos integrales",
     description: "Pan integral, elaborado artesanalmente. Ideal para desayunos y meriendas. Se conserva en heladera (9 días) o freezer (3 meses). Peso: 600g.",
     image: "https://i.imgur.com/HwHmwXy.jpeg",
     options: [
@@ -704,7 +711,8 @@ const productsData = [
     ]
   },
   {
-       name: "Fosforitos rellenos de jamón y queso",
+    name: "Fosforitos rellenos de jamón y queso",
+    category: "Catering",
     description: "Más de 4 docenas: Encargar con 7 días de anticipación. ",
     image: "https://i.imgur.com/lHOa0zA.jpeg",
     options: [
@@ -713,6 +721,7 @@ const productsData = [
   },
   {
     name: "Prepizza integral",
+    category: "Productos integrales",
     description: "Pre pizza integral de tomate. Cocinar 5 min con queso + toppings. Freezer: 3 meses.",
     image: "https://i.imgur.com/KM3M6T7.png",
     options: [
@@ -722,6 +731,7 @@ const productsData = [
   },
   {
     name: "Premezcla de chocolate para bizcochuelo y cookies",
+    category: "Productos integrales",
     description: "Mezclar con 1½ taza de leche y ¼ taza de aceite. Agregar frutas o nueces opcional. Hornear 45 min a 180°C.",
     image: "https://i.imgur.com/lHGDMTX.png",
     options: [
@@ -730,6 +740,7 @@ const productsData = [
   },
   {
     name: "Chipa congelado",
+    category: "Congelados",
     description: "Chipa de 30g c/u. Aprox. 35 por kilo. Hornear 20 min a 220°C sin descongelar.",
     image: "https://i.imgur.com/ih1A0aS.png",
     options: [
@@ -741,6 +752,7 @@ const productsData = [
   },
   {
     name: "Chipa sandwich",
+    category: "Congelados",
     description: "Hornear 20 min a 220°C. Dejar enfriar 5 min antes de cortar. Ideal para rellenar con lo que más te guste.",
     image: "https://i.imgur.com/D3wLxvh.png",
     options: [
@@ -750,6 +762,7 @@ const productsData = [
   },
   {
     name: "Cookielada",
+    category: "Congelados",
     description: "Tubo de cookies congeladas de avena, chocolate y nuez. Cortar y hornear 15-20 min a 180°C.",
     image: "https://i.imgur.com/bqGg251.png",
     options: [
@@ -763,29 +776,50 @@ const container = document.getElementById("products");
 let cart = [];
 
 
+const categories = [...new Set(productsData.map(p => p.category))];
 
-productsData.forEach((prod, i) => {
-  const div = document.createElement("div");
-  div.className = "product";
-  div.innerHTML = `
-    <img src="${prod.image}" alt="${prod.name}">
-    <div class="info">
-      <p><strong>${prod.name}</strong></p>
-      <p>${prod.description}</p>
-      <label>Opción</label>
-      <select id="product${i}">
-        <option value="">Elegí una opción</option>
-        ${prod.options.map(opt => `<option value="${opt}">${opt}</option>`).join("")}
-      </select>
-      <label>Cantidad</label>
-      <select id="qty${i}">
-        ${[...Array(10)].map((_, n) => `<option value="${n+1}">${n+1}</option>`).join("")}
-      </select>
-      <button type="button" onclick="addToCart(${i})">Agregar al carrito</button>
+categories.forEach(cat => {
+  const section = document.createElement("div");
+  section.className = "category";
+
+  section.innerHTML = `
+    <div class="category-header" onclick="toggleCategory(this)">
+      ${cat}
     </div>
+    <div class="category-content"></div>
   `;
-  container.appendChild(div);
+
+  container.appendChild(section);
+
+  const content = section.querySelector(".category-content");
+
+  productsData
+    .filter(p => p.category === cat)
+    .forEach((prod, i) => {
+      const div = document.createElement("div");
+      div.className = "product";
+      div.innerHTML = `
+        <img src="${prod.image}" alt="${prod.name}">
+        <div class="info">
+          <p><strong>${prod.name}</strong></p>
+          <p>${prod.description}</p>
+          <label>Opción</label>
+          <select id="product${Math.random()}">
+            <option value="">Elegí una opción</option>
+            ${prod.options.map(opt => `<option value="${opt}">${opt}</option>`).join("")}
+          </select>
+          <label>Cantidad</label>
+          <select id="qty${Math.random()}">
+            ${[...Array(10)].map((_, n) => `<option value="${n+1}">${n+1}</option>`).join("")}
+          </select>
+          <button type="button" onclick="addToCartByName('${prod.name}', this)">Agregar al carrito</button>
+        </div>
+      `;
+      content.appendChild(div);
+    });
 });
+
+
 
 document.getElementById("orderForm").addEventListener("submit", function(e) {
   e.preventDefault();
@@ -865,6 +899,30 @@ function updateCartUI() {
   });
   totalText.innerHTML = `<strong>Total: $${total}</strong>`;
 }
+    function toggleCategory(header) {
+  document.querySelectorAll(".category-content").forEach(c => {
+    if (c !== header.nextElementSibling) {
+      c.style.display = "none";
+    }
+  });
+
+  const content = header.nextElementSibling;
+  content.style.display = content.style.display === "block" ? "none" : "block";
+}
+
+function addToCartByName(name, btn) {
+  const product = productsData.find(p => p.name === name);
+  const selects = btn.parentElement.querySelectorAll("select");
+  const option = selects[0].value;
+  const qty = parseInt(selects[1].value);
+
+  if (!option) return alert("Seleccioná una opción válida.");
+
+  cart.push({ name: product.name, option, qty });
+  updateCartUI();
+  showNotification();
+}
+
 </script>
 </body>
 </html>
