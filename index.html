@@ -582,21 +582,24 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
   if (payment === "transferencia") {
     message += `%0ADatos para transferir:%0A🔸 Alias: leke.arg%0A🔸 Titular: Brenda de Oar%0A`;
   }
-
+const submitSound = new Audio('https://orangefreesounds.com/wp-content/uploads/2021/04/Success-sound-effect.mp3');  // agregá al final del script
+// ...
+window.open(`https://wa.me/...`, "_blank");
+submitSound.play();  // ← después del open, o antes si querés
   window.open(`https://wa.me/541153107714?text=${message}`, "_blank");
 });
 
 function showNotification() {
   const notif = document.getElementById("notification");
   notif.classList.add("visible");
-  notif.style.display = "block"; // por si estaba en none
+  notif.style.display = "block";
+  
+  addToCartSound.play();  // ← reproduce el sonido aquí
 
   setTimeout(() => {
     notif.classList.remove("visible");
-    setTimeout(() => { 
-      notif.style.display = "none"; 
-    }, 500); // espera a que termine la transición de salida
-  }, 2200); // tiempo que se queda visible
+    setTimeout(() => { notif.style.display = "none"; }, 500);
+  }, 2200);
 }
 
 
@@ -650,28 +653,24 @@ function toggleCategory(header) {
   const content = header.nextElementSibling;
   const isOpen = content.classList.contains("active");
 
-  // Cerrar todas las categorías
   document.querySelectorAll(".category-content").forEach(c => {
     c.classList.remove("active");
   });
 
-  // Abrir la seleccionada si no estaba abierta
   if (!isOpen) {
     content.classList.add("active");
+    openCategorySound.play();  // ← sonido al abrir
     
-    // Esperamos a que termine la animación de expansión (0.55s + un poco de buffer)
     setTimeout(() => {
       const firstProduct = content.querySelector(".product");
       if (firstProduct) {
         firstProduct.scrollIntoView({ behavior: "smooth", block: "start" });
       } else {
-        // Si no hay productos (raro), scrollea al header
         header.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-    }, 600);  // 600ms = tiempo de transición + margen
+    }, 600);
   }
 }
-
 
 
 function addToCartByName(name, btn) {
@@ -686,7 +685,9 @@ function addToCartByName(name, btn) {
   updateCartUI();
   showNotification();
 }
-
+// Sonidos (agregá más si querés)
+const addToCartSound = new Audio('https://orangefreesounds.com/wp-content/uploads/2025/08/Success-chime-sound-effect.mp3');
+const openCategorySound = new Audio('https://orangefreesounds.com/wp-content/uploads/2023/04/Pop-sound-effect.mp3');  // opcional, un "pop" suave para abrir categorías
 </script>
 </body>
 </html>
