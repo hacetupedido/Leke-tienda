@@ -646,7 +646,6 @@ function updateCartUI() {
 }
 
 
-
 function toggleCategory(header) {
   const content = header.nextElementSibling;
   const isOpen = content.classList.contains("active");
@@ -659,9 +658,20 @@ function toggleCategory(header) {
   // Abrir la seleccionada si no estaba abierta
   if (!isOpen) {
     content.classList.add("active");
-    header.scrollIntoView({ behavior: "smooth", block: "start" });
+    
+    // Esperamos a que termine la animación de expansión (0.55s + un poco de buffer)
+    setTimeout(() => {
+      const firstProduct = content.querySelector(".product");
+      if (firstProduct) {
+        firstProduct.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        // Si no hay productos (raro), scrollea al header
+        header.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 600);  // 600ms = tiempo de transición + margen
   }
 }
+
 
 
 function addToCartByName(name, btn) {
