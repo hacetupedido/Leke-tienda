@@ -579,29 +579,26 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
   message += `📝 Aclaraciones: ${document.getElementById("notes").value}%0A`;
   const payment = document.getElementById("paymentMethod").value;
   message += `💳 Método de pago: ${payment}%0A`;
+  
   if (payment === "transferencia") {
     message += `%0ADatos para transferir:%0A🔸 Alias: leke.arg%0A🔸 Titular: Brenda de Oar%0A`;
   }
-const submitSound = new Audio('https://orangefreesounds.com/wp-content/uploads/2021/04/Success-sound-effect.mp3');  // agregá al final del script
-// ...
-window.open(`https://wa.me/...`, "_blank");
-submitSound.play();  // ← después del open, o antes si querés
+  
+  submitSound.play().catch(err => console.log("Sonido bloqueado:", err));
   window.open(`https://wa.me/541153107714?text=${message}`, "_blank");
 });
-
 function showNotification() {
   const notif = document.getElementById("notification");
   notif.classList.add("visible");
   notif.style.display = "block";
   
-  addToCartSound.play();  // ← reproduce el sonido aquí
+  addToCartSound.play().catch(err => console.log("Sonido bloqueado:", err));
 
   setTimeout(() => {
     notif.classList.remove("visible");
     setTimeout(() => { notif.style.display = "none"; }, 500);
-  }, 2200);
+  }, 1800);
 }
-
 
 function removeFromCart(index) {
   cart.splice(index, 1);
@@ -659,7 +656,7 @@ function toggleCategory(header) {
 
   if (!isOpen) {
     content.classList.add("active");
-    openCategorySound.play();  // ← sonido al abrir
+    openCategorySound.play().catch(err => console.log("Sonido bloqueado:", err));
     
     setTimeout(() => {
       const firstProduct = content.querySelector(".product");
@@ -685,9 +682,10 @@ function addToCartByName(name, btn) {
   updateCartUI();
   showNotification();
 }
-// Sonidos (agregá más si querés)
-const addToCartSound = new Audio('https://orangefreesounds.com/wp-content/uploads/2025/08/Success-chime-sound-effect.mp3');
-const openCategorySound = new Audio('https://orangefreesounds.com/wp-content/uploads/2023/04/Pop-sound-effect.mp3');  // opcional, un "pop" suave para abrir categorías
+// Sonidos suaves y cortos
+const addToCartSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-message-pop-alert-2354.mp3');
+const openCategorySound = new Audio('https://cdn.pixabay.com/download/audio/2022/03/15/audio_8d7b0b8b0d.mp3?filename=soft-pop-1-14802.mp3');
+const submitSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-tech-alert-2774.mp3');
 </script>
 </body>
 </html>
