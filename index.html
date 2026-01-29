@@ -510,11 +510,10 @@ const productsData = [
 const container = document.getElementById("products");
 let cart = [];
 
-// Sonidos suaves y cortos
-// Sonidos suaves y cortos – links estables y probados
-const addToCartSound = new Audio('https://cdn.freesound.org/previews/387/387179_7253554-lq.mp3');  // pop corto y sutil (de Freesound, libre)
-const openCategorySound = new Audio('https://cdn.freesound.org/previews/276/276514_5123854-lq.mp3');  // pop suave y delicado (el estilo que te gustaba)
-const submitSound = new Audio('https://cdn.freesound.org/previews/456/456440_5123854-lq.mp3');  // ding positivo corto y elegante
+// Sonidos suaves, cortos y con links que cargan sin error
+const addToCartSound = new Audio('https://freesound.org/data/previews/387/387179_7253554-lq.mp3');  // pop sutil y corto para "agregar al carrito"
+const openCategorySound = new Audio('https://freesound.org/data/previews/276/276514_5123854-lq.mp3');  // pop suave y delicado para abrir categorías
+const submitSound = new Audio('https://freesound.org/data/previews/456/456440_5123854-lq.mp3');  // ding positivo corto y elegante para enviar pedido
 const categories = [...new Set(productsData.map(p => p.category))];
 
 categories.forEach(cat => {
