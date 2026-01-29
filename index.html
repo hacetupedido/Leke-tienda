@@ -264,6 +264,29 @@ button:hover {
   white-space: nowrap;   /* una sola línea */
   box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
+/* ===== FIX DEFINITIVO TEXTO VERTICAL EN CARRITO ===== */
+
+#cartItems {
+  width: 100%;
+  text-align: left !important;
+}
+
+#cartItems li {
+  width: 100%;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left !important;
+}
+
+.cart-item-text {
+  flex: 1;
+  min-width: 0;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  text-align: left !important;
+}
 
 </style>
 </head>
