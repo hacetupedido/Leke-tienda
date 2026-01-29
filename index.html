@@ -8,310 +8,240 @@
 <title>Leke - Tienda</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&display=swap" rel="stylesheet">
 <style>
-    body {
-  background-color: #F4ECFA;
-  color: #4A4A4A;
-  font-family: 'League Spartan', sans-serif;
-  margin: 0;
-  padding: 0;
+   body {
+    background-color: #F4ECFA;
+    color: #4A4A4A;
+    font-family: 'League Spartan', sans-serif;
+    margin: 0;
+    padding: 0;
 }
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .brand-logo {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.brand-logo {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
 }
 
 .brand-logo img {
-  max-width: 220px;
-  width: 100%;
-  height: auto;
+    max-width: 220px;
+    width: 100%;
+    height: auto;
 }
-    .product img {
-  width: 180px;
-  height: auto;
-  object-fit: cover;
-  border-radius: 8px;
+
+/* Productos */
+.product {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+    border: 1px solid #D6CBE8;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 16px;
 }
-    .product {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 24px;
-  border: 1px solid #D6CBE8;
-  background-color: #FFFFFF;
-  border-radius: 12px;
-  padding: 16px;
+
+.product img {
+    width: 180px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
 }
-    .info {
-      flex-grow: 1;
-      padding: 10px;
-    }
-    .info p {
-  font-size: 14px;
-  margin: 6px 0;
-  line-height: 1.4;
+
+.info {
+    flex-grow: 1;
+    padding: 10px;
 }
-    .form-section {
-      margin-top: 40px;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-    }
-    input, select, textarea {
-  width: 100%;
-  padding: 10px;
-  font-family: inherit;
-  margin-top: 5px;
-  border: 1px solid #D6CBE8;
-  border-radius: 8px;
-  background-color: #FBF8FE;
-  color: #4A4A4A;
+
+.info p {
+    font-size: 14px;
+    margin: 6px 0;
+    line-height: 1.4;
 }
-    button {
-  margin-top: 20px;
-  padding: 14px;
-  width: 100%;
-  font-size: 16px;
-  font-weight: bold;
-  background-color: #B89AD9;
-  color: #FFFFFF;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+
+/* Formulario */
+.form-section {
+    margin-top: 40px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    font-family: inherit;
+    margin-top: 5px;
+    border: 1px solid #D6CBE8;
+    border-radius: 8px;
+    background-color: #FBF8FE;
+    color: #4A4A4A;
+}
+
+button {
+    margin-top: 20px;
+    padding: 14px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #B89AD9;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
 button:hover {
-  background-color: #9E7CCB;
-    }
-  
-    @media screen and (max-width: 600px) {
-  .product {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
+    background-color: #9E7CCB;
 }
-@media screen and (min-width: 900px) {
-  .product img {
-    width: 100%;
-    max-width: 260px;
-    height: auto;
-  }
-}
-      .category-header {
-  background: #FFFFFF;
-  border: 1px solid #D6CBE8;
-  border-radius: 10px;
-  padding: 14px;
-  margin: 16px 0 8px;
-  font-weight: 600;
-  cursor: pointer;
+
+/* Categorías colapsables */
+.category-header {
+    background: #FFFFFF;
+    border: 1px solid #D6CBE8;
+    border-radius: 10px;
+    padding: 14px;
+    margin: 16px 0 8px;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 .category-content {
-  display: none;
+    display: none;
 }
 
-
-/* =========================
-   CARRITO – CSS LIMPIO
-========================= */
-
+/* =====================================
+   CARRITO – versión unificada y estable
+   ===================================== */
 #carritoContainer button {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  background: #fff;
-  color: #4A4A4A;
-  border: 1px solid #D6CBE8;
-  border-radius: 10px;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    background: #fff;
+    color: #4A4A4A;
+    border: 1px solid #D6CBE8;
+    border-radius: 10px;
 }
 
 #carritoDetalle {
-  display: none;
-  margin-top: 12px;
-  padding: 12px;
-  border: 1px solid #D6CBE8;
-  border-radius: 12px;
-  background: #FFFFFF;
+    display: none;
+    margin-top: 12px;
+    padding: 12px;
+    border: 1px solid #D6CBE8;
+    border-radius: 12px;
+    background: #FFFFFF;
+    width: 100%;
 }
 
 #cartItems {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
 }
 
 #cartItems li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #F4ECFA;
-  padding: 10px 12px;
-  border-radius: 10px;
-  margin-bottom: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    background: #F4ECFA;
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin-bottom: 8px;
 }
 
 .cart-item-text {
-  flex: 1;
-  font-size: 14px;
-  color: #4A4A4A;
-  line-height: 1.3;
-  word-break: break-word;
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    color: #4A4A4A;
+    line-height: 1.3;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .remove-btn {
-  background: #ff4444;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 6px 10px;
-  font-size: 13px;
-  cursor: pointer;
-  white-space: nowrap;
+    flex-shrink: 0;
+    background: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 13px;
+    cursor: pointer;
 }
 
 .remove-btn:hover {
-  background: #e60000;
+    background: #e60000;
 }
 
 #totalPedido {
-  margin-top: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #4A4A4A;
-  text-align: right;
-}
-/* ===== FIX DEFINITIVO TEXTO CARRITO ===== */
-
-#cartItems li {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #4A4A4A;
+    text-align: right;
 }
 
-.cart-item-text {
-  flex: 1;
-  min-width: 0;
-  white-space: normal;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-}
-
-#cartItems li {
-  display: flex;
-  align-items: flex-start;
-}
-
-.cart-item-text {
-  flex: 1;
-  min-width: 0;
-  white-space: normal;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-}
-/* ===== FIX CARRITO IG / MOBILE ===== */
-
-#carritoDetalle {
-  width: 100%;
-}
-
-#cartItems li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  text-align: left;        /* CLAVE */
-}
-
-.cart-item-text {
-  flex: 1;
-  min-width: 0;            /* CLAVE */
-  white-space: normal;     /* CLAVE */
-  word-break: normal;
-  overflow-wrap: break-word;
-  text-align: left;
-}
-
-/* Botón eliminar estable */
-.remove-btn {
-  flex-shrink: 0;
-}
+/* Notificación */
 #notification {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #4CAF50;
-  color: white;
-  padding: 14px 22px;
-  border-radius: 14px;
-  font-size: 16px;
-  font-weight: 600;
-  z-index: 2000;
-  display: none;
-  white-space: nowrap;   /* una sola línea */
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-}
-/* ===== FIX DEFINITIVO TEXTO VERTICAL EN CARRITO ===== */
-
-#cartItems {
-  width: 100%;
-  text-align: left !important;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #4CAF50;
+    color: white;
+    padding: 14px 22px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    z-index: 2000;
+    display: none;
+    white-space: nowrap;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 
-#cartItems li {
-  width: 100%;
-  display: flex !important;
-  align-items: center;
-  justify-content: space-between;
-  text-align: left !important;
+/* Responsive */
+@media screen and (max-width: 600px) {
+    .product {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    #cartItems li {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: left;
+    }
+
+    .remove-btn {
+        margin-top: 4px;
+        align-self: flex-end;
+    }
 }
 
-.cart-item-text {
-  flex: 1;
-  min-width: 0;
-  white-space: normal !important;
-  word-break: normal !important;
-  overflow-wrap: break-word !important;
-  text-align: left !important;
+@media screen and (min-width: 900px) {
+    .product img {
+        width: 100%;
+        max-width: 260px;
+    }
 }
-/* ===== FIX DEFINITIVO TEXTO CARRITO (WhatsApp / IG) ===== */
-
-#carritoDetalle,
-#cartItems,
-#cartItems li,
-.cart-item-text {
-  text-align: left !important;
-}
-/* ===== FIX REAL DEFINITIVO CARRITO ===== */
-
-#cartItems li {
-  display: block !important;
-}
-
-.cart-item-text {
-  display: block;
-  width: 100%;
-  margin-bottom: 8px;
-}
-
-.remove-btn {
-  display: inline-block;
-}
-
-
 </style>
 </head>
 <body><div id="notification">Se agregó al carrito</div>
