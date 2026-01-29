@@ -242,6 +242,120 @@ button:hover {
         max-width: 260px;
     }
 }
+   /* ====================
+   ANIMACIONES GENERALES
+   ==================== */
+
+/* Hover en productos - sensación premium */
+.product {
+    transition: all 0.35s ease;
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.product:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.15);
+}
+
+.product img {
+    transition: transform 0.5s ease;
+    will-change: transform;
+}
+
+.product:hover img {
+    transform: scale(1.12);
+}
+
+/* Fade-in + slide-up al cargar productos */
+.product {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.7s ease-out forwards;
+}
+
+/* Delay progresivo para que entren uno detrás del otro */
+.product:nth-child(1) { animation-delay: 0.1s; }
+.product:nth-child(2) { animation-delay: 0.2s; }
+.product:nth-child(3) { animation-delay: 0.3s; }
+.product:nth-child(4) { animation-delay: 0.4s; }
+.product:nth-child(5) { animation-delay: 0.5s; }
+.product:nth-child(6) { animation-delay: 0.6s; }
+/* Si tenés más de 6 por categoría, seguí agregando o usá un patrón más general después */
+
+/* Keyframe para entrada */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Categorías: slide + fade suave (reemplaza display none/block) */
+.category-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.4s ease;
+    will-change: max-height, opacity;
+}
+
+.category-content.active {
+    max-height: 4000px;   /* valor grande para que quepa todo (ajustá si tenés categorías enormes) */
+    opacity: 1;
+}
+
+/* Feedback en botón Agregar al carrito */
+button[type="button"] {  /* los de agregar producto */
+    transition: all 0.2s ease;
+    transform: scale(1);
+}
+
+button[type="button"]:active {
+    transform: scale(0.94);
+    background-color: #9E7CCB !important;  /* más oscuro al presionar */
+}
+
+/* Notificación con pop + bounce */
+#notification {
+    opacity: 0;
+    transform: scale(0.6) translate(-50%, -50%);
+    transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#notification.visible {   /* usaremos .visible en vez de solo display */
+    opacity: 1;
+    transform: scale(1) translate(-50%, -50%);
+    animation: bounceIn 0.6s ease;
+}
+
+@keyframes bounceIn {
+    0%   { transform: scale(0.6) translate(-50%, -50%); opacity: 0; }
+    50%  { transform: scale(1.12) translate(-50%, -50%); opacity: 1; }
+    75%  { transform: scale(0.95) translate(-50%, -50%); }
+    100% { transform: scale(1) translate(-50%, -50%); }
+}
+
+/* Ítems del carrito con fade-in al agregarse (opcional pero lindo) */
+#cartItems li {
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: slideInRight 0.5s ease forwards;
+}
+
+@keyframes slideInRight {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
 </style>
 </head>
 <body><div id="notification">Se agregó al carrito</div>
@@ -469,8 +583,15 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
 
 function showNotification() {
   const notif = document.getElementById("notification");
-  notif.style.display = "block";
-  setTimeout(() => notif.style.display = "none", 2000);
+  notif.classList.add("visible");
+  notif.style.display = "block"; // por si estaba en none
+
+  setTimeout(() => {
+    notif.classList.remove("visible");
+    setTimeout(() => { 
+      notif.style.display = "none"; 
+    }, 500); // espera a que termine la transición de salida
+  }, 2200); // tiempo que se queda visible
 }
 
 
@@ -496,42 +617,44 @@ function addToCart(index) {
   showNotification();
 }
 
-
-
-
 function updateCartUI() {
   const cartList = document.getElementById("cartItems");
   const totalText = document.getElementById("totalPedido");
-  cartList.innerHTML = "";
+  cartList.innerHTML = ""; // limpiamos
+
   let total = 0;
   cart.forEach((item, index) => {
     const price = parseInt(item.option.split("$")[1].replace(/[^0-9]/g, ""));
     total += price * item.qty;
+
     const li = document.createElement("li");
     li.innerHTML = `
       <span class='cart-item-text'>${item.name} x${item.qty} ${item.option}</span>
       <button class='remove-btn' onclick='removeFromCart(${index})'>Eliminar</button>`;
     cartList.appendChild(li);
+    
+    // Forzamos que la animación se reproduzca cada vez que se agrega un ítem
+    li.offsetHeight;
   });
+
   totalText.innerHTML = `<strong>Total: $${total}</strong>`;
 }
+
+
+
 function toggleCategory(header) {
   const content = header.nextElementSibling;
-  const isOpen = content.style.display === "block";
+  const isOpen = content.classList.contains("active");
 
   // Cerrar todas las categorías
   document.querySelectorAll(".category-content").forEach(c => {
-    c.style.display = "none";
+    c.classList.remove("active");
   });
 
-  // Si no estaba abierta, la abrimos y scrolleamos al inicio
+  // Abrir la seleccionada si no estaba abierta
   if (!isOpen) {
-    content.style.display = "block";
-
-    header.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+    content.classList.add("active");
+    header.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 }
 
