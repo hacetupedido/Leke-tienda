@@ -510,10 +510,10 @@ const productsData = [
 const container = document.getElementById("products");
 let cart = [];
 
-// Sonidos suaves, cortos y con links que cargan sin error
-const addToCartSound = new Audio('https://freesound.org/data/previews/387/387179_7253554-lq.mp3');  // pop sutil y corto para "agregar al carrito"
-const openCategorySound = new Audio('https://freesound.org/data/previews/276/276514_5123854-lq.mp3');  // pop suave y delicado para abrir categorías
-const submitSound = new Audio('https://freesound.org/data/previews/456/456440_5123854-lq.mp3');  // ding positivo corto y elegante para enviar pedido
+// Sonidos suaves y cortos – links estables que cargan
+const addToCartSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-quick-pop-alert-2354.mp3');  // pop corto y sutil para agregar al carrito (0.5s)
+const openCategorySound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-bubble-pop-up-alert-2355.mp3');  // pop suave y delicado para abrir categorías (0.6s)
+const submitSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-2174.mp3');  // ding positivo corto y elegante para enviar (0.5s)
 const categories = [...new Set(productsData.map(p => p.category))];
 
 categories.forEach(cat => {
