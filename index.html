@@ -895,16 +895,26 @@ function updateCartUI() {
   });
   totalText.innerHTML = `<strong>Total: $${total}</strong>`;
 }
-    function toggleCategory(header) {
+function toggleCategory(header) {
+  const content = header.nextElementSibling;
+  const isOpen = content.style.display === "block";
+
+  // Cerrar todas las categorías
   document.querySelectorAll(".category-content").forEach(c => {
-    if (c !== header.nextElementSibling) {
-      c.style.display = "none";
-    }
+    c.style.display = "none";
   });
 
-  const content = header.nextElementSibling;
-  content.style.display = content.style.display === "block" ? "none" : "block";
+  // Si no estaba abierta, la abrimos y scrolleamos al inicio
+  if (!isOpen) {
+    content.style.display = "block";
+
+    header.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
 }
+
 
 function addToCartByName(name, btn) {
   const product = productsData.find(p => p.name === name);
