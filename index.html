@@ -269,21 +269,25 @@ button:hover {
     transform: scale(1.12);
 }
 
-/* Fade-in + slide-up al cargar productos */
+/* Fade-in + slide-up al cargar productos (después de que se muestren) */
 .product {
     opacity: 0;
     transform: translateY(30px);
     animation: fadeInUp 0.7s ease-out forwards;
 }
 
-/* Delay progresivo para que entren uno detrás del otro */
+/* Delay progresivo para que entren uno detrás del otro (general para todos los .product) */
 .product:nth-child(1) { animation-delay: 0.1s; }
 .product:nth-child(2) { animation-delay: 0.2s; }
 .product:nth-child(3) { animation-delay: 0.3s; }
 .product:nth-child(4) { animation-delay: 0.4s; }
 .product:nth-child(5) { animation-delay: 0.5s; }
 .product:nth-child(6) { animation-delay: 0.6s; }
-/* Si tenés más de 6 por categoría, seguí agregando o usá un patrón más general después */
+.product:nth-child(7) { animation-delay: 0.7s; }
+.product:nth-child(8) { animation-delay: 0.8s; }
+.product:nth-child(9) { animation-delay: 0.9s; }
+.product:nth-child(10) { animation-delay: 1.0s; }
+.product:nth-child(11) { animation-delay: 1.1s; }
 
 /* Keyframe para entrada */
 @keyframes fadeInUp {
@@ -297,8 +301,9 @@ button:hover {
     }
 }
 
-/* Categorías: slide + fade suave (reemplaza display none/block) */
+/* Categorías: slide + fade suave (CORREGIDO - maneja display + max-height) */
 .category-content {
+    display: block;  /* ← CLAVE: permite que max-height funcione */
     max-height: 0;
     opacity: 0;
     overflow: hidden;
@@ -308,19 +313,19 @@ button:hover {
 }
 
 .category-content.active {
-    max-height: 4000px;   /* valor grande para que quepa todo (ajustá si tenés categorías enormes) */
+    max-height: 4000px;  /* grande para que quepa todo */
     opacity: 1;
 }
 
 /* Feedback en botón Agregar al carrito */
-button[type="button"] {  /* los de agregar producto */
+button[type="button"] {
     transition: all 0.2s ease;
     transform: scale(1);
 }
 
 button[type="button"]:active {
     transform: scale(0.94);
-    background-color: #9E7CCB !important;  /* más oscuro al presionar */
+    background-color: #9E7CCB !important;
 }
 
 /* Notificación con pop + bounce */
@@ -330,20 +335,20 @@ button[type="button"]:active {
     transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-#notification.visible {   /* usaremos .visible en vez de solo display */
+#notification.visible {
     opacity: 1;
     transform: scale(1) translate(-50%, -50%);
     animation: bounceIn 0.6s ease;
 }
 
 @keyframes bounceIn {
-    0%   { transform: scale(0.6) translate(-50%, -50%); opacity: 0; }
-    50%  { transform: scale(1.12) translate(-50%, -50%); opacity: 1; }
-    75%  { transform: scale(0.95) translate(-50%, -50%); }
+    0% { transform: scale(0.6) translate(-50%, -50%); opacity: 0; }
+    50% { transform: scale(1.12) translate(-50%, -50%); opacity: 1; }
+    75% { transform: scale(0.95) translate(-50%, -50%); }
     100% { transform: scale(1) translate(-50%, -50%); }
 }
 
-/* Ítems del carrito con fade-in al agregarse (opcional pero lindo) */
+/* Ítems del carrito con fade-in al agregarse */
 #cartItems li {
     opacity: 0;
     transform: translateX(-20px);
