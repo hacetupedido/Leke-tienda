@@ -208,23 +208,7 @@ button:hover {
   word-break: break-word;
   overflow-wrap: anywhere;
 }
-/* ===== MENSAJE "SE AGREGÓ AL CARRITO" ===== */
 
-#notification {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #4CAF50;
-  color: white;
-  padding: 14px 22px;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  display: none;
-  z-index: 9999;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-}
 #cartItems li {
   display: flex;
   align-items: flex-start;
@@ -236,6 +220,49 @@ button:hover {
   white-space: normal;
   word-break: break-word;
   overflow-wrap: anywhere;
+}
+/* ===== FIX CARRITO IG / MOBILE ===== */
+
+#carritoDetalle {
+  width: 100%;
+}
+
+#cartItems li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;        /* CLAVE */
+}
+
+.cart-item-text {
+  flex: 1;
+  min-width: 0;            /* CLAVE */
+  white-space: normal;     /* CLAVE */
+  word-break: normal;
+  overflow-wrap: break-word;
+  text-align: left;
+}
+
+/* Botón eliminar estable */
+.remove-btn {
+  flex-shrink: 0;
+}
+#notification {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #4CAF50;
+  color: white;
+  padding: 14px 22px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  z-index: 2000;
+  display: none;
+  white-space: nowrap;   /* una sola línea */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 
 </style>
