@@ -510,11 +510,10 @@ const productsData = [
 const container = document.getElementById("products");
 let cart = [];
 
-
-// Sonidos subidos a mi repo – links con codificación 100% correcta
-const addToCartSound = new Audio('https://hacetupedido.github.io/Leke-tienda/se%20añadíó%20carrito.mp3');  // este ya funciona
-const openCategorySound = new Audio('https://hacetupedido.github.io/Leke-tienda/categorías.mp3');  // este debería funcionar ahora (tilde en í)
-const submitSound = new Audio('https://hacetupedido.github.io/Leke-tienda/WhatsApp.mp3');  // este también debería (sin tilde)
+// Sonidos – usa los links que te salen con "Raw" y cambiados a github.io
+const addToCartSound = new Audio('https://hacetupedido.github.io/Leke-tienda/se%20añadíó%20carrito.mp3');  // ajustá con tu link real
+const openCategorySound = new Audio('https://hacetupedido.github.io/Leke-tienda/categorías.mp3');  // ajustá
+const submitSound = new Audio('https://hacetupedido.github.io/Leke-tienda/WhatsApp.mp3');  // ajustá
 const categories = [...new Set(productsData.map(p => p.category))];
 
 categories.forEach(cat => {
