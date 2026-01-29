@@ -511,9 +511,10 @@ const container = document.getElementById("products");
 let cart = [];
 
 // Sonidos suaves y cortos
-const addToCartSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-message-pop-alert-2354.mp3');
-const openCategorySound = new Audio('https://cdn.pixabay.com/download/audio/2022/03/15/audio_8d7b0b8b0d.mp3?filename=soft-pop-1-14802.mp3');
-const submitSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-tech-alert-2774.mp3');
+// Sonidos suaves y cortos – links estables y probados
+const addToCartSound = new Audio('https://cdn.freesound.org/previews/387/387179_7253554-lq.mp3');  // pop corto y sutil (de Freesound, libre)
+const openCategorySound = new Audio('https://cdn.freesound.org/previews/276/276514_5123854-lq.mp3');  // pop suave y delicado (el estilo que te gustaba)
+const submitSound = new Audio('https://cdn.freesound.org/previews/456/456440_5123854-lq.mp3');  // ding positivo corto y elegante
 const categories = [...new Set(productsData.map(p => p.category))];
 
 categories.forEach(cat => {
