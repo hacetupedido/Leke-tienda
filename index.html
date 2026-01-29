@@ -510,7 +510,10 @@ const productsData = [
 const container = document.getElementById("products");
 let cart = [];
 
-
+// Sonidos suaves y cortos
+const addToCartSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-message-pop-alert-2354.mp3');
+const openCategorySound = new Audio('https://cdn.pixabay.com/download/audio/2022/03/15/audio_8d7b0b8b0d.mp3?filename=soft-pop-1-14802.mp3');
+const submitSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-tech-alert-2774.mp3');
 const categories = [...new Set(productsData.map(p => p.category))];
 
 categories.forEach(cat => {
@@ -682,10 +685,7 @@ function addToCartByName(name, btn) {
   updateCartUI();
   showNotification();
 }
-// Sonidos suaves y cortos
-const addToCartSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-message-pop-alert-2354.mp3');
-const openCategorySound = new Audio('https://cdn.pixabay.com/download/audio/2022/03/15/audio_8d7b0b8b0d.mp3?filename=soft-pop-1-14802.mp3');
-const submitSound = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-positive-tech-alert-2774.mp3');
+
 </script>
 </body>
 </html>
