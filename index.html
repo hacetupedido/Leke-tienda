@@ -360,23 +360,25 @@ button[type="button"]:active {
         opacity: 1;
         transform: translateX(0);
     }
-/* Categoría San Valentín distinta – más visible */
+/* Categoría San Valentín – versión más visible para probar */
 .category-header.san-valentin {
-  background: #FFCDD2;  /* rosa más fuerte y lindo */
-  color: #C2185B;       /* texto rosa oscuro para contraste */
-  border: 2px solid #E91E63;  /* borde rosa intenso */
-  position: relative;
-  font-weight: bold;    /* texto más destacado */
-  padding-left: 40px !important;  /* espacio para el corazón grande */
+  background: #FFCDD2 !important;  /* rosa fuerte */
+  color: #C2185B !important;        /* texto rosa oscuro */
+  border: 3px solid #E91E63 !important;  /* borde rosa intenso */
+  position: relative !important;
+  font-weight: bold !important;
+  padding-left: 50px !important;    /* espacio grande para corazón */
+  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.2) !important;  /* sombra rosa para destacar */
 }
 
 .category-header.san-valentin::before {
-  content: "❤️"; 
+  content: "💕 San Valentín 💕";  /* corazón + texto para que se note mucho */
   position: absolute;
-  left: 15px;
+  left: 10px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 28px;      /* corazón más grande */
+  font-size: 20px !important;
+  color: #E91E63;
 }
 </style>
 </head>
