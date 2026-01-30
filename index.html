@@ -567,7 +567,7 @@ categories.forEach(cat => {
   section.className = "category";
 
 section.innerHTML = `
-  <div class="category-header${cat.trim().toLowerCase() === "san valentin" ? " san-valentin" : ""}" onclick="toggleCategory(this)">
+  <div class="category-header san-valentin" onclick="toggleCategory(this)">
     ${cat}
   </div>
   <div class="category-content"></div>
