@@ -563,12 +563,12 @@ categories.forEach(cat => {
   const section = document.createElement("div");
   section.className = "category";
 
-  section.innerHTML = `
-    <div class="category-header" onclick="toggleCategory(this)">
-      ${cat}
-    </div>
-    <div class="category-content"></div>
-  `;
+ section.innerHTML = `
+  <div class="category-header${cat === "san valentin" || cat === "San Valentín" ? " san-valentin" : ""}" onclick="toggleCategory(this)">
+    ${cat}
+  </div>
+  <div class="category-content"></div>
+`;
 
   container.appendChild(section);
 
