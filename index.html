@@ -360,6 +360,22 @@ button[type="button"]:active {
         opacity: 1;
         transform: translateX(0);
     }
+   /* Categoría San Valentín distinta */
+.category-header.san-valentin {
+  background: linear-gradient(to right, #F8BBD0, #F4ECFA);  // rosa suave a lila
+  color: #9E7CCB;  // texto lila oscuro para contraste
+  border: 1px solid #E57373;  // borde rosa
+  position: relative;  // para posicionar el corazón
+}
+
+.category-header.san-valentin::before {
+  content: "❤️";  // corazón emoji (o usa una imagen si querés)
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+
 }
 </style>
 </head>
@@ -398,6 +414,24 @@ button[type="button"]:active {
 <script>
 const productsData = [
      {
+    name: "Box Flork 2 unidades",
+    category: "San Valentin",
+    description: "2 Cookies a elección surtidas",
+    image: "https://i.ibb.co/xSmg2JCk/san-valentin-1.jpg",
+    options: [
+      "Unidad $12000",
+    ]
+  },
+   {
+    name: "Box: Contiene amor. 6 unidades",
+    category: "San Valentin",
+    description: "6 Cookies surtidas",
+    image: "https://i.ibb.co/3mXWzq4K/san-valentin-2.png",
+    options: [
+      "Unidad $32000",
+    ]
+  },
+   {
     name: "Cookie New York Oreo",
     category: "Cookies",
     description: "Con chips de chocolate y relleno con galletita oreo.",
