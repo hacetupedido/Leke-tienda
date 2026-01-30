@@ -361,25 +361,20 @@ button[type="button"]:active {
         transform: translateX(0);
     }
    }
-/* Categoría San Valentín – versión más visible para probar */
+/* Categoría San Valentín – sutil, solo corazón a la derecha */
 .category-header.san-valentin {
-  background: #FFCDD2 !important;
-  color: #C2185B !important;
-  border: 3px solid #E91E63 !important;
-  position: relative !important;
-  font-weight: bold !important;
-  padding-left: 50px !important;
-  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.2) !important;
+  position: relative;
+  padding-right: 40px !important; /* espacio para el corazón a la derecha */
 }
 
-.category-header.san-valentin::before {
-  content: "💕 San Valentín 💕";
+.category-header.san-valentin::after {
+  content: "❤️";
   position: absolute;
-  left: 10px;
+  right: 15px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 20px !important;
-  color: #E91E63;
+  font-size: 20px;
+  color: #E91E63; /* rosa romántico */
 }
 </style>
 </head>
