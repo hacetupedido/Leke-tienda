@@ -19,8 +19,7 @@
 .container {
     max-width: 960px;
     margin: 0 auto;
-    padding: 10px;
-   box-sizing: border-box;  /* evita que padding sume al width */
+    padding: 20px;
 }
 
 h1 {
@@ -35,7 +34,7 @@ h1 {
 }
 
 .brand-logo img {
-    max-width: 100px;
+    max-width: 180px;
     width: 100%;
     height: auto;
 }
@@ -72,73 +71,40 @@ h1 {
 
 /* Formulario */
 .form-section {
-  margin-top: 30px; /* un poquito menos para no bajar tanto */
-  padding: 0 10px; /* espacio lateral seguro en todos los lados */
-  box-sizing: border-box; /* evita que padding agrande el ancho */
-  width: 100%;
-  max-width: 100%; /* fuerza a que no se pase del contenedor */
+    margin-top: 40px;
 }
 
-/* Labels más legibles y con espacio */
 label {
-  display: block;
-  margin: 12px 0 6px;
-  font-weight: 500;
-  color: #4A4A4A;
+    display: block;
+    margin-top: 10px;
 }
 
-/* Inputs, selects y textarea: 100% ancho, sin cortes */
 input, select, textarea {
-  width: 100%;
-  padding: 12px;
-  font-family: inherit;
-  margin-top: 4px;
-  border: 1px solid #D6CBE8;
-  border-radius: 8px;
-  background-color: #FBF8FE;
-  color: #4A4A4A;
-  box-sizing: border-box; /* clave: evita que padding sume ancho extra */
-  font-size: 16px; /* legible en móvil */
+    width: 100%;
+    padding: 10px;
+    font-family: inherit;
+    margin-top: 5px;
+    border: 1px solid #D6CBE8;
+    border-radius: 8px;
+    background-color: #FBF8FE;
+    color: #4A4A4A;
 }
 
-/* Botón: full width, sin cortes */
 button {
-  margin-top: 20px;
-  padding: 14px;
-  width: 100%;
-  font-size: 18px; /* un poquito más grande para tocar fácil */
-  font-weight: bold;
-  background-color: #B89AD9;
-  color: #FFFFFF;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  box-sizing: border-box;
+    margin-top: 20px;
+    padding: 14px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #B89AD9;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
 button:hover {
-  background-color: #9E7CCB;
-}
-
-/* Ajustes específicos para móvil (pantallas < 600px) */
-@media (max-width: 600px) {
-  .form-section {
-    padding: 0 5px; /* aún menos padding para ganar espacio */
-  }
-
-  label {
-    font-size: 15px;
-  }
-
-  input, select, textarea {
-    padding: 12px;
-    font-size: 16px;
-  }
-
-  button {
-    font-size: 18px;
-    padding: 16px; /* más alto para tocar fácil en dedo */
-  }
+    background-color: #9E7CCB;
 }
 
 /* Categorías colapsables */
@@ -156,113 +122,80 @@ button:hover {
     display: none;
 }
 
-/* Carrito – ajustado para móvil */
-#carritoContainer {
-  margin-top: 20px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
+/* =====================================
+   CARRITO – versión unificada y estable
+   ===================================== */
 #carritoContainer button {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  background: #fff;
-  color: #4A4A4A;
-  border: 1px solid #D6CBE8;
-  border-radius: 10px;
-  box-sizing: border-box;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    background: #fff;
+    color: #4A4A4A;
+    border: 1px solid #D6CBE8;
+    border-radius: 10px;
 }
 
 #carritoDetalle {
-  display: none;
-  margin-top: 12px;
-  padding: 12px;
-  border: 1px solid #D6CBE8;
-  border-radius: 12px;
-  background: #FFFFFF;
-  width: 100%;
-  box-sizing: border-box;
-  max-width: 100%; /* evita que se pase del contenedor */
+    display: none;
+    margin-top: 12px;
+    padding: 12px;
+    border: 1px solid #D6CBE8;
+    border-radius: 12px;
+    background: #FFFFFF;
+    width: 100%;
 }
 
 #cartItems {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  text-align: left;
-  width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
 }
 
 #cartItems li {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  background: #F4ECFA;
-  padding: 10px 12px;
-  border-radius: 10px;
-  margin-bottom: 8px;
-  box-sizing: border-box;
-  word-break: break-word; /* evita que texto largo corte */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    background: #F4ECFA;
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin-bottom: 8px;
 }
 
 .cart-item-text {
-  flex: 1 1 auto;
-  min-width: 0;
-  font-size: 14px;
-  color: #4A4A4A;
-  line-height: 1.3;
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    color: #4A4A4A;
+    line-height: 1.3;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .remove-btn {
-  flex-shrink: 0;
-  background: #ff4444;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 6px 10px;
-  font-size: 13px;
-  cursor: pointer;
-  margin-left: 10px;
+    flex-shrink: 0;
+    background: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    background: #e60000;
 }
 
 #totalPedido {
-  margin-top: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #4A4A4A;
-  text-align: right;
-  width: 100%;
-  padding-right: 10px; /* evita corte en el borde derecho */
-}
-
-   
-/* Ajustes específicos para móvil */
-@media (max-width: 600px) {
-  #carritoDetalle {
-    padding: 10px;
-  }
-
-  #cartItems li {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .remove-btn {
-    align-self: flex-end;
-    margin-left: 0;
-    margin-top: 5px;
-  }
-
-  #totalPedido {
-    text-align: center; /* en móvil centrado queda mejor */
-    padding-right: 0;
-    font-size: 17px;
-  }
+    margin-top: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #4A4A4A;
+    text-align: right;
 }
 
 /* Notificación */
@@ -502,14 +435,17 @@ button[type="button"]:active {
 </head>
 <body><div id="notification">Se agregó al carrito</div>
 <div class="container">
-   <div class="brand-logo">
-  <img src="https://i.imgur.com/Rnt7Mqo.png" alt="Leke">
-</div>
 <div class="banner-carousel">
   <img src="https://i.ibb.co/8DVyPMhL/1.png" alt="sanvalentin">
   <img src="https://i.ibb.co/zWg1TmYQ/2.png" alt="cookie">
   <img src="https://i.ibb.co/rJH3ZXJ/3.png" alt="envios">
 
+
+
+</div>
+
+<div class="brand-logo">
+  <img src="https://i.imgur.com/Rnt7Mqo.png" alt="Leke">
 </div>
 <form id="orderForm">
 <div id="products" class="products"></div>
@@ -519,12 +455,6 @@ button[type="button"]:active {
 <div id="carritoDetalle" style="display:none; margin-top:10px; border: 1px solid #fff; padding: 10px; text-align:center;">
 <ul id="cartItems" style="list-style:none; padding:0;"></ul>
 <p id="totalPedido" style="margin-top:10px;"><strong>Total: $0</strong></p>
-   <div id="descuentoSection" style="margin-top: 15px; text-align: center;">
-  <p style="margin-bottom: 8px; font-size: 14px; color: #666;">¿Tenés código de descuento?</p>
-  <input id="codigoDescuento" type="text" placeholder="Ingresa el código" style="padding: 8px; width: 70%; max-width: 220px; border: 1px solid #D6CBE8; border-radius: 6px; font-size: 15px;">
-  <button id="aplicarDescuentoBtn" style="margin-left: 8px; padding: 8px 12px; background: #B89AD9; color: white; border: none; border-radius: 6px; cursor: pointer;">Aplicar</button>
-  <p id="descuentoMensaje" style="margin-top: 8px; font-size: 13px; color: #4CAF50; display: none;"></p>
-</div>
 </div>
 </div><label>Nombre</label>
 <input id="name" required="" type="text"/>
@@ -893,92 +823,6 @@ if (carousel) {
     images[currentIndex].style.display = 'block';
   }, 5000);  // cambia cada 5 segundos
 }
-   // Lista de códigos válidos (vos los editás acá cuando quieras)
-const codigosDescuento = {
-  "COOKIENY": { tipo: "porcentaje", valor: 10, descripcion: "10% OFF" },
-  "CONGELADOS26": { tipo: "monto", valor: 1000, descripcion: "$1000 OFF" },
-  "ENAMORADOS": { tipo: "porcentaje", valor: 5, descripcion: "5% OFF" }
-  // Agregá más: "CODIGO": { tipo: "porcentaje" o "monto", valor: número, descripcion: "texto" }
-};
-
-let descuentoAplicado = 0; // guarda el descuento actual en pesos
-
-// Aplicar descuento
-document.getElementById("aplicarDescuentoBtn").addEventListener("click", function() {
-  const codigoInput = document.getElementById("codigoDescuento").value.trim().toUpperCase();
-  const mensaje = document.getElementById("descuentoMensaje");
-
-  if (!codigoInput) {
-    mensaje.textContent = "Ingresa un código";
-    mensaje.style.color = "#ff4444";
-    mensaje.style.display = "block";
-    return;
-  }
-
-  const codigoData = codigosDescuento[codigoInput];
-
-  if (codigoData) {
-    // Calcular descuento
-    let nuevoDescuento = 0;
-    const subtotal = parseFloat(document.getElementById("totalPedido").textContent.replace("Total: $", "").replace(",", "")) || 0;
-
-    if (codigoData.tipo === "porcentaje") {
-      nuevoDescuento = subtotal * (codigoData.valor / 100);
-    } else if (codigoData.tipo === "monto") {
-      nuevoDescuento = codigoData.valor;
-    }
-
-    descuentoAplicado = nuevoDescuento;
-    updateCartUI(); // actualiza total con descuento
-
-    mensaje.textContent = `¡Código aplicado! ${codigoData.descripcion}`;
-    mensaje.style.color = "#4CAF50";
-    mensaje.style.display = "block";
-  } else {
-    mensaje.textContent = "Código inválido o expirado";
-    mensaje.style.color = "#ff4444";
-    mensaje.style.display = "block";
-  }
-});
-
-// Modificar updateCartUI para mostrar descuento y total final
-function updateCartUI() {
-  const cartList = document.getElementById("cartItems");
-  const totalText = document.getElementById("totalPedido");
-  cartList.innerHTML = ""; // limpiamos
-
-  let subtotal = 0;
-  cart.forEach((item, index) => {
-    const price = parseInt(item.option.split("$")[1].replace(/[^0-9]/g, "")) || 0;
-    subtotal += price * item.qty;
-
-    const li = document.createElement("li");
-    li.innerHTML = `
-      <span class='cart-item-text'>${item.name} x${item.qty} ${item.option}</span>
-      <button class='remove-btn' onclick='removeFromCart(${index})'>Eliminar</button>`;
-    cartList.appendChild(li);
-    li.offsetHeight; // fuerza animación
-  });
-
-  const totalConDescuento = subtotal - descuentoAplicado;
-  const subtotalStr = subtotal.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  const descuentoStr = descuentoAplicado.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  const totalStr = totalConDescuento.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
-  if (descuentoAplicado > 0) {
-    totalText.innerHTML = `
-      <strong>Subtotal: $${subtotalStr}</strong><br>
-      <strong style="color:#4CAF50;">Descuento: -$${descuentoStr}</strong><br>
-      <strong>Total: $${totalStr}</strong>
-    `;
-  } else {
-    totalText.innerHTML = `<strong>Total: $${subtotalStr}</strong>`;
-  }
-}
-
-  // Incluir descuento en mensaje de WhatsApp
-  // (ya está en el submit, pero podés agregar aquí si querés)
-};
 </script>
 </body>
 </html>
