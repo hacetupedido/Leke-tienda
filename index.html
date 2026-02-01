@@ -238,12 +238,7 @@ button:hover {
   width: 100%;
   padding-right: 10px; /* evita corte en el borde derecho */
 }
-<div id="descuentoSection" style="margin-top: 15px; text-align: center;">
-  <p style="margin-bottom: 8px; font-size: 14px; color: #666;">¿Tenés código de descuento?</p>
-  <input id="codigoDescuento" type="text" placeholder="Ingresa el código" style="padding: 8px; width: 70%; max-width: 220px; border: 1px solid #D6CBE8; border-radius: 6px; font-size: 15px;">
-  <button id="aplicarDescuentoBtn" style="margin-left: 8px; padding: 8px 12px; background: #B89AD9; color: white; border: none; border-radius: 6px; cursor: pointer;">Aplicar</button>
-  <p id="descuentoMensaje" style="margin-top: 8px; font-size: 13px; color: #4CAF50; display: none;"></p>
-</div>
+
    
 /* Ajustes específicos para móvil */
 @media (max-width: 600px) {
@@ -524,6 +519,12 @@ button[type="button"]:active {
 <div id="carritoDetalle" style="display:none; margin-top:10px; border: 1px solid #fff; padding: 10px; text-align:center;">
 <ul id="cartItems" style="list-style:none; padding:0;"></ul>
 <p id="totalPedido" style="margin-top:10px;"><strong>Total: $0</strong></p>
+   <div id="descuentoSection" style="margin-top: 15px; text-align: center;">
+  <p style="margin-bottom: 8px; font-size: 14px; color: #666;">¿Tenés código de descuento?</p>
+  <input id="codigoDescuento" type="text" placeholder="Ingresa el código" style="padding: 8px; width: 70%; max-width: 220px; border: 1px solid #D6CBE8; border-radius: 6px; font-size: 15px;">
+  <button id="aplicarDescuentoBtn" style="margin-left: 8px; padding: 8px 12px; background: #B89AD9; color: white; border: none; border-radius: 6px; cursor: pointer;">Aplicar</button>
+  <p id="descuentoMensaje" style="margin-top: 8px; font-size: 13px; color: #4CAF50; display: none;"></p>
+</div>
 </div>
 </div><label>Nombre</label>
 <input id="name" required="" type="text"/>
@@ -941,26 +942,39 @@ document.getElementById("aplicarDescuentoBtn").addEventListener("click", functio
 });
 
 // Modificar updateCartUI para mostrar descuento y total final
-const originalUpdateCartUI = updateCartUI;
-updateCartUI = function() {
-  originalUpdateCartUI();
+function updateCartUI() {
+  const cartList = document.getElementById("cartItems");
+  const totalText = document.getElementById("totalPedido");
+  cartList.innerHTML = ""; // limpiamos
 
-  const subtotalElement = document.getElementById("totalPedido");
-  const subtotalText = subtotalElement.innerHTML.replace("<strong>Total: $", "").replace("</strong>", "").replace(",", "");
-  const subtotal = parseFloat(subtotalText) || 0;
+  let subtotal = 0;
+  cart.forEach((item, index) => {
+    const price = parseInt(item.option.split("$")[1].replace(/[^0-9]/g, "")) || 0;
+    subtotal += price * item.qty;
+
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <span class='cart-item-text'>${item.name} x${item.qty} ${item.option}</span>
+      <button class='remove-btn' onclick='removeFromCart(${index})'>Eliminar</button>`;
+    cartList.appendChild(li);
+    li.offsetHeight; // fuerza animación
+  });
 
   const totalConDescuento = subtotal - descuentoAplicado;
-  const totalTexto = totalConDescuento.toFixed(0);
+  const subtotalStr = subtotal.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  const descuentoStr = descuentoAplicado.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  const totalStr = totalConDescuento.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 
   if (descuentoAplicado > 0) {
-    subtotalElement.innerHTML = `
-      <strong>Subtotal: $${subtotal.toFixed(0)}</strong><br>
-      <strong style="color:#4CAF50;">Descuento: -$${descuentoAplicado.toFixed(0)}</strong><br>
-      <strong>Total: $${totalTexto}</strong>
+    totalText.innerHTML = `
+      <strong>Subtotal: $${subtotalStr}</strong><br>
+      <strong style="color:#4CAF50;">Descuento: -$${descuentoStr}</strong><br>
+      <strong>Total: $${totalStr}</strong>
     `;
   } else {
-    subtotalElement.innerHTML = `<strong>Total: $${subtotal.toFixed(0)}</strong>`;
+    totalText.innerHTML = `<strong>Total: $${subtotalStr}</strong>`;
   }
+}
 
   // Incluir descuento en mensaje de WhatsApp
   // (ya está en el submit, pero podés agregar aquí si querés)
