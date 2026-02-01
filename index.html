@@ -238,7 +238,13 @@ button:hover {
   width: 100%;
   padding-right: 10px; /* evita corte en el borde derecho */
 }
-
+<div id="descuentoSection" style="margin-top: 15px; text-align: center;">
+  <p style="margin-bottom: 8px; font-size: 14px; color: #666;">¿Tenés código de descuento?</p>
+  <input id="codigoDescuento" type="text" placeholder="Ingresa el código" style="padding: 8px; width: 70%; max-width: 220px; border: 1px solid #D6CBE8; border-radius: 6px; font-size: 15px;">
+  <button id="aplicarDescuentoBtn" style="margin-left: 8px; padding: 8px 12px; background: #B89AD9; color: white; border: none; border-radius: 6px; cursor: pointer;">Aplicar</button>
+  <p id="descuentoMensaje" style="margin-top: 8px; font-size: 13px; color: #4CAF50; display: none;"></p>
+</div>
+   
 /* Ajustes específicos para móvil */
 @media (max-width: 600px) {
   #carritoDetalle {
@@ -886,6 +892,79 @@ if (carousel) {
     images[currentIndex].style.display = 'block';
   }, 5000);  // cambia cada 5 segundos
 }
+   // Lista de códigos válidos (vos los editás acá cuando quieras)
+const codigosDescuento = {
+  "COOKIENY": { tipo: "porcentaje", valor: 10, descripcion: "10% OFF" },
+  "CONGELADOS26": { tipo: "monto", valor: 1000, descripcion: "$1000 OFF" },
+  "ENAMORADOS": { tipo: "porcentaje", valor: 5, descripcion: "5% OFF" }
+  // Agregá más: "CODIGO": { tipo: "porcentaje" o "monto", valor: número, descripcion: "texto" }
+};
+
+let descuentoAplicado = 0; // guarda el descuento actual en pesos
+
+// Aplicar descuento
+document.getElementById("aplicarDescuentoBtn").addEventListener("click", function() {
+  const codigoInput = document.getElementById("codigoDescuento").value.trim().toUpperCase();
+  const mensaje = document.getElementById("descuentoMensaje");
+
+  if (!codigoInput) {
+    mensaje.textContent = "Ingresa un código";
+    mensaje.style.color = "#ff4444";
+    mensaje.style.display = "block";
+    return;
+  }
+
+  const codigoData = codigosDescuento[codigoInput];
+
+  if (codigoData) {
+    // Calcular descuento
+    let nuevoDescuento = 0;
+    const subtotal = parseFloat(document.getElementById("totalPedido").textContent.replace("Total: $", "").replace(",", "")) || 0;
+
+    if (codigoData.tipo === "porcentaje") {
+      nuevoDescuento = subtotal * (codigoData.valor / 100);
+    } else if (codigoData.tipo === "monto") {
+      nuevoDescuento = codigoData.valor;
+    }
+
+    descuentoAplicado = nuevoDescuento;
+    updateCartUI(); // actualiza total con descuento
+
+    mensaje.textContent = `¡Código aplicado! ${codigoData.descripcion}`;
+    mensaje.style.color = "#4CAF50";
+    mensaje.style.display = "block";
+  } else {
+    mensaje.textContent = "Código inválido o expirado";
+    mensaje.style.color = "#ff4444";
+    mensaje.style.display = "block";
+  }
+});
+
+// Modificar updateCartUI para mostrar descuento y total final
+const originalUpdateCartUI = updateCartUI;
+updateCartUI = function() {
+  originalUpdateCartUI();
+
+  const subtotalElement = document.getElementById("totalPedido");
+  const subtotalText = subtotalElement.innerHTML.replace("<strong>Total: $", "").replace("</strong>", "").replace(",", "");
+  const subtotal = parseFloat(subtotalText) || 0;
+
+  const totalConDescuento = subtotal - descuentoAplicado;
+  const totalTexto = totalConDescuento.toFixed(0);
+
+  if (descuentoAplicado > 0) {
+    subtotalElement.innerHTML = `
+      <strong>Subtotal: $${subtotal.toFixed(0)}</strong><br>
+      <strong style="color:#4CAF50;">Descuento: -$${descuentoAplicado.toFixed(0)}</strong><br>
+      <strong>Total: $${totalTexto}</strong>
+    `;
+  } else {
+    subtotalElement.innerHTML = `<strong>Total: $${subtotal.toFixed(0)}</strong>`;
+  }
+
+  // Incluir descuento en mensaje de WhatsApp
+  // (ya está en el submit, pero podés agregar aquí si querés)
+};
 </script>
 </body>
 </html>
