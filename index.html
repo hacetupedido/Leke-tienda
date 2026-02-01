@@ -19,7 +19,8 @@
 .container {
     max-width: 960px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 10px;
+   box-sizing: border-box;  /* evita que padding sume al width */
 }
 
 h1 {
@@ -71,40 +72,73 @@ h1 {
 
 /* Formulario */
 .form-section {
-    margin-top: 40px;
+  margin-top: 30px; /* un poquito menos para no bajar tanto */
+  padding: 0 10px; /* espacio lateral seguro en todos los lados */
+  box-sizing: border-box; /* evita que padding agrande el ancho */
+  width: 100%;
+  max-width: 100%; /* fuerza a que no se pase del contenedor */
 }
 
+/* Labels más legibles y con espacio */
 label {
-    display: block;
-    margin-top: 10px;
+  display: block;
+  margin: 12px 0 6px;
+  font-weight: 500;
+  color: #4A4A4A;
 }
 
+/* Inputs, selects y textarea: 100% ancho, sin cortes */
 input, select, textarea {
-    width: 100%;
-    padding: 10px;
-    font-family: inherit;
-    margin-top: 5px;
-    border: 1px solid #D6CBE8;
-    border-radius: 8px;
-    background-color: #FBF8FE;
-    color: #4A4A4A;
+  width: 100%;
+  padding: 12px;
+  font-family: inherit;
+  margin-top: 4px;
+  border: 1px solid #D6CBE8;
+  border-radius: 8px;
+  background-color: #FBF8FE;
+  color: #4A4A4A;
+  box-sizing: border-box; /* clave: evita que padding sume ancho extra */
+  font-size: 16px; /* legible en móvil */
 }
 
+/* Botón: full width, sin cortes */
 button {
-    margin-top: 20px;
-    padding: 14px;
-    width: 100%;
-    font-size: 16px;
-    font-weight: bold;
-    background-color: #B89AD9;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+  margin-top: 20px;
+  padding: 14px;
+  width: 100%;
+  font-size: 18px; /* un poquito más grande para tocar fácil */
+  font-weight: bold;
+  background-color: #B89AD9;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-sizing: border-box;
 }
 
 button:hover {
-    background-color: #9E7CCB;
+  background-color: #9E7CCB;
+}
+
+/* Ajustes específicos para móvil (pantallas < 600px) */
+@media (max-width: 600px) {
+  .form-section {
+    padding: 0 5px; /* aún menos padding para ganar espacio */
+  }
+
+  label {
+    font-size: 15px;
+  }
+
+  input, select, textarea {
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  button {
+    font-size: 18px;
+    padding: 16px; /* más alto para tocar fácil en dedo */
+  }
 }
 
 /* Categorías colapsables */
