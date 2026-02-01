@@ -17,10 +17,9 @@
 }
 
 .container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 10px;  /* menos padding en general */
-  box-sizing: border-box;  /* evita que padding sume al width */
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 h1 {
@@ -35,7 +34,7 @@ h1 {
 }
 
 .brand-logo img {
-    max-width: 100px;
+    max-width: 180px;
     width: 100%;
     height: auto;
 }
@@ -72,44 +71,42 @@ h1 {
 
 /* Formulario */
 .form-section {
-  margin-top: 20px;
-  padding: 0 10px;  /* padding pequeño en móvil */
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 100%;  /* fuerza a que ocupe todo el ancho disponible */
+    margin-top: 40px;
 }
 
-.form-section label,
-.form-section input,
-.form-section select,
-.form-section textarea {
-  width: 100%;
-  box-sizing: border-box;  /* asegura que no se corte con padding */
-  margin: 8px 0;
+label {
+    display: block;
+    margin-top: 10px;
 }
 
-.form-section button {
-  width: 100%;
-  box-sizing: border-box;
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    font-family: inherit;
+    margin-top: 5px;
+    border: 1px solid #D6CBE8;
+    border-radius: 8px;
+    background-color: #FBF8FE;
+    color: #4A4A4A;
 }
 
-/* Ajuste específico para móvil */
-@media (max-width: 600px) {
-  .form-section {
-    padding: 0 5px;  /* aún menos padding en celular */
-  }
-
-  .form-section label {
-    font-size: 15px;
-  }
-
-  .form-section input,
-  .form-section select,
-  .form-section textarea {
+button {
+    margin-top: 20px;
+    padding: 14px;
+    width: 100%;
     font-size: 16px;
-    padding: 12px;
-  }
+    font-weight: bold;
+    background-color: #B89AD9;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }
+
+button:hover {
+    background-color: #9E7CCB;
+}
+
 /* Categorías colapsables */
 .category-header {
     background: #FFFFFF;
@@ -390,27 +387,20 @@ button[type="button"]:active {
 }
 .banner-carousel {
   max-width: 960px;
-  margin: 15px auto;  /* menos margen arriba/abajo */
+  margin: 20px auto;
   overflow: hidden;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  height: 280px;  /* altura mayor para que se vea bien en móvil */
-  position: relative;
 }
 
 .banner-carousel img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;  /* ajusta la imagen sin distorsionar */
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  transition: opacity 0.6s ease;
+  height: auto;
+  display: none; /* oculta todas menos la primera */
 }
 
-.banner-carousel img.active {
-  opacity: 1;
+.banner-carousel img:first-child {
+  display: block; /* muestra la primera */
 }
 .social-footer {
   text-align: center;
@@ -445,19 +435,18 @@ button[type="button"]:active {
 </head>
 <body><div id="notification">Se agregó al carrito</div>
 <div class="container">
-   
+<div class="banner-carousel">
+  <img src="https://i.ibb.co/PvrVYfkr/2.png" alt="sanvalentin">
+  <img src="https://i.ibb.co/CpjC3tRm/1.png" alt="cookie">
+  <img src="https://i.ibb.co/7J5JJ8dr/3.png" alt="envios">
+
+
+
+</div>
+
 <div class="brand-logo">
   <img src="https://i.imgur.com/Rnt7Mqo.png" alt="Leke">
 </div>
-<div class="banner-carousel">
-  <img src="https://i.ibb.co/8DVyPMhL/1.png" alt="sanvalentin">
-  <img src="https://i.ibb.co/zWg1TmYQ/2.png" alt="cookie">
-  <img src="https://i.ibb.co/rJH3ZXJ/3.png" alt="envios">
-
-
-
-</div>
-
 <form id="orderForm">
 <div id="products" class="products"></div>
 <div class="form-section">
