@@ -34,7 +34,7 @@ h1 {
 }
 
 .brand-logo img {
-    max-width: 220px;
+    max-width: 180px;
     width: 100%;
     height: auto;
 }
@@ -385,10 +385,65 @@ button[type="button"]:active {
   50% { transform: translateY(-50%) scale(1.2); }
   100% { transform: translateY(-50%) scale(1); }
 }
+.banner-carousel {
+  max-width: 960px;
+  margin: 20px auto;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.banner-carousel img {
+  width: 100%;
+  height: auto;
+  display: none; /* oculta todas menos la primera */
+}
+
+.banner-carousel img:first-child {
+  display: block; /* muestra la primera */
+}
+.social-footer {
+  text-align: center;
+  margin: 15px 0 10px; /* menos margen para reducir altura */
+  padding: 5px 0; /* padding mínimo */
+  font-size: 13px;
+  color: #4A4A4A;
+  line-height: 1.2; /* reduce altura de línea */
+}
+
+.social-footer p {
+  margin: 0 0 5px; /* menos espacio entre texto e íconos */
+  font-weight: 500;
+}
+
+.social-footer a {
+  display: inline-block;
+  margin: 0 10px; /* espacio horizontal pequeño */
+  vertical-align: middle;
+}
+
+.social-footer img {
+  width: 28px; /* íconos muy pequeños y sutiles */
+  height: 28px;
+  transition: transform 0.2s ease;
+}
+
+.social-footer a:hover img {
+  transform: scale(1.2); /* leve efecto al hover */
+}
 </style>
 </head>
 <body><div id="notification">Se agregó al carrito</div>
 <div class="container">
+<div class="banner-carousel">
+  <img src="https://i.ibb.co/PvrVYfkr/2.png" alt="sanvalentin">
+  <img src="https://i.ibb.co/CpjC3tRm/1.png" alt="cookie">
+  <img src="https://i.ibb.co/7J5JJ8dr/3.png" alt="envios">
+
+
+
+</div>
+
 <div class="brand-logo">
   <img src="https://i.imgur.com/Rnt7Mqo.png" alt="Leke">
 </div>
@@ -415,9 +470,19 @@ button[type="button"]:active {
 <option value="efectivo">Efectivo</option>
 <option value="transferencia">Transferencia</option>
 </select>
-<button style="background-color: #25D366; color: #fff; font-weight: bold; font-size: 18px; padding: 15px; width: 100%; border: none; border-radius: 5px; margin-top: 20px;" type="submit">Enviar pedido por WhatsApp</button>
+<button style="background-color: #25D366; color: #fff; font-weight: bold; font-size: 18px; padding: 15px; width: 100%; border: none; border-radius: 5px; margin-top: 20px;" type="submit">¡Enviar mi pedido por WhatsApp ahora!</button>
 </div>
 </form>
+
+<div class="social-footer">
+  <p style="font-size: 12px; margin: 5px 0 10px; color: #666;">Seguinos en Instagram y TikTok</p>
+  <a href="https://instagram.com/leke.arg" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.icons8.com/color/48/000000/instagram-new.png" alt="Instagram">
+  </a>
+  <a href="https://tiktok.com/@leke.arg1" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.icons8.com/color/48/000000/tiktok--v1.png" alt="TikTok">
+  </a>
+</div>
 </div>
 <script>
 const productsData = [
@@ -436,7 +501,7 @@ const productsData = [
     description: "6 Cookies surtidas",
     image: "https://i.ibb.co/3mXWzq4K/san-valentin-2.png",
     options: [
-      "Unidad $32000",
+      "Unidad $35000",
     ]
   },
    {
@@ -445,7 +510,7 @@ const productsData = [
     description: "Con chips de chocolate y relleno con galletita oreo.",
     image: "https://i.imgur.com/7oW14Of.jpeg",
     options: [
-      "Unidad $3200",
+      "Unidad $5000",
     ]
   },
     {
@@ -454,7 +519,7 @@ const productsData = [
     description: "Con chips de chocolate semiamargo, blanco y con leche",
     image: "https://i.imgur.com/sEt8Pjt.jpeg",
     options: [
-      "Unidad $2800",
+      "Unidad $5000",
     ]
   },
     {
@@ -463,7 +528,7 @@ const productsData = [
     description: "Con pistachos picados y rellena con pasta de pistacho.",
     image: "https://i.imgur.com/p4ATDzt.jpeg",
     options: [
-      "Unidad $6500",
+      "Unidad $5000",
     ]
   },
   {
@@ -472,7 +537,7 @@ const productsData = [
     description: "Con pistachos picados y rellena con pasta de pistacho.",
     image: "https://i.ibb.co/k2Ntw89z/cookie-tofi.jpg",
     options: [
-      "Unidad $4000",
+      "Unidad $5000",
     ]
   },
   {
@@ -485,6 +550,16 @@ const productsData = [
     ]
   },
   {
+name: "Box degustación",
+    category: "Cookies",
+    description: "6 cookies diferentes para degustar.",
+    image: "https://i.ibb.co/x85yvHF3/photo-2026-01-31-17-22-41.jpg",
+    options: [
+      "Box $27000",
+    ]
+  },
+  {
+
     name: "Pan integral",
     category: "Productos integrales",
     description: "Pan integral, elaborado artesanalmente. Ideal para desayunos y meriendas. Se conserva en heladera (9 días) o freezer (3 meses). Peso: 600g.",
@@ -617,7 +692,7 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
     return;
   }
 
-  let message = "Hola! Quiero hacer un pedido:%0A";
+  let message = "Hola Leke! Quiero hacer un pedido:%0A";
   let total = 0;
 
   cart.forEach(item => {
@@ -736,7 +811,18 @@ function addToCartByName(name, btn) {
   updateCartUI();
   showNotification();
 }
+// Carousel solo para banners – rota cada 5 segundos
+const carousel = document.querySelector('.banner-carousel');
+if (carousel) {
+  const images = carousel.querySelectorAll('img');  // solo imgs dentro del carousel
+  let currentIndex = 0;
 
+  setInterval(() => {
+    images[currentIndex].style.display = 'none';
+    currentIndex = (currentIndex + 1) % images.length;
+    images[currentIndex].style.display = 'block';
+  }, 5000);  // cambia cada 5 segundos
+}
 </script>
 </body>
 </html>
