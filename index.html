@@ -17,9 +17,10 @@
 }
 
 .container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 10px;  /* menos padding en general */
+  box-sizing: border-box;  /* evita que padding sume al width */
 }
 
 h1 {
@@ -71,42 +72,44 @@ h1 {
 
 /* Formulario */
 .form-section {
-    margin-top: 40px;
+  margin-top: 20px;
+  padding: 0 10px;  /* padding pequeño en móvil */
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;  /* fuerza a que ocupe todo el ancho disponible */
 }
 
-label {
-    display: block;
-    margin-top: 10px;
+.form-section label,
+.form-section input,
+.form-section select,
+.form-section textarea {
+  width: 100%;
+  box-sizing: border-box;  /* asegura que no se corte con padding */
+  margin: 8px 0;
 }
 
-input, select, textarea {
-    width: 100%;
-    padding: 10px;
-    font-family: inherit;
-    margin-top: 5px;
-    border: 1px solid #D6CBE8;
-    border-radius: 8px;
-    background-color: #FBF8FE;
-    color: #4A4A4A;
+.form-section button {
+  width: 100%;
+  box-sizing: border-box;
 }
 
-button {
-    margin-top: 20px;
-    padding: 14px;
-    width: 100%;
+/* Ajuste específico para móvil */
+@media (max-width: 600px) {
+  .form-section {
+    padding: 0 5px;  /* aún menos padding en celular */
+  }
+
+  .form-section label {
+    font-size: 15px;
+  }
+
+  .form-section input,
+  .form-section select,
+  .form-section textarea {
     font-size: 16px;
-    font-weight: bold;
-    background-color: #B89AD9;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+    padding: 12px;
+  }
 }
-
-button:hover {
-    background-color: #9E7CCB;
-}
-
 /* Categorías colapsables */
 .category-header {
     background: #FFFFFF;
