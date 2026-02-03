@@ -250,60 +250,12 @@ button:hover {
     box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 
-/* Responsive - Móvil (pantallas < 600px) */
+/* Responsive */
 @media screen and (max-width: 600px) {
     .product {
         flex-direction: column;
-        align-items: stretch;           /* ← cambio importante: stretch en vez de center */
+        align-items: center;
         text-align: center;
-        min-height: 520px;              /* ← asegura altura mínima para que quepa todo */
-        padding: 12px 12px 28px 12px;   /* ← más espacio abajo para el botón */
-        box-sizing: border-box;
-    }
-
-    .product img {
-        width: 100%;
-        max-width: 280px;
-        height: 200px;                  /* ← altura fija para controlar el espacio */
-        object-fit: cover;
-        margin-bottom: 12px;
-    }
-
-    .info {
-        padding: 0;
-        flex-grow: 1;
-    }
-
-    .info p {
-        font-size: 13px;
-        line-height: 1.3;
-        margin: 6px 0 10px 0;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;          /* ← limita a 3 líneas la descripción larga */
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    .info label {
-        margin: 8px 0 4px 0;
-        font-size: 14px;
-    }
-
-    .info select {
-        padding: 10px 8px;
-        font-size: 15px;
-        margin-bottom: 8px;
-    }
-
-    .info button[type="button"] {
-        margin-top: 12px;
-        padding: 16px 12px;
-        font-size: 16px;
-        width: 100%;
-        position: sticky;
-        bottom: 0;
-        background: #B89AD9 !important;  /* ← fuerza el color para que se vea */
-        z-index: 1;                      /* ← evita que se superponga raro */
     }
 
     #cartItems li {
@@ -619,11 +571,6 @@ button[type="button"]:active {
     padding-right: 0;
     font-size: 17px;
   }
-}
-   /* Limitar descripción del Box degustación en móvil */
-.product img[alt*="degustación"] ~ .info p:nth-of-type(2),
-.product img[alt*="degustacion"] ~ .info p:nth-of-type(2) {
-    -webkit-line-clamp: 2;   /* ← máximo 2 líneas para este producto en particular */
 }
 </style>
 </head>
