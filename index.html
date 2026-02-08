@@ -602,6 +602,8 @@ button[type="button"]:active {
 <input id="name" required="" type="text"/>
 <label>Dirección</label>
 <input id="address" required="" type="text"/>
+<label>Número de timbre / Depto / Piso</label>
+<input id="timbre" type="text" placeholder="Ej: 5A, timbre 18, piso 3 dto B" />
 <label>Entre calles</label>
 <input id="cross" required="" type="text"/>
 <label>Aclaraciones</label>
@@ -878,13 +880,12 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
     total += price * item.qty;
   });
 
-  message += `%0A🧾 Total: $${total}%0A`;
-  message += `🧍 Nombre: ${document.getElementById("name").value}%0A`;
-  message += `📍 Dirección: ${document.getElementById("address").value}%0A`;
-  message += `🚧 Entre calles: ${document.getElementById("cross").value}%0A`;
-  message += `📝 Aclaraciones: ${document.getElementById("notes").value}%0A`;
-  const payment = document.getElementById("paymentMethod").value;
-  message += `💳 Método de pago: ${payment}%0A`;
+ message += `%0A🧾 Total: $${total}%0A`;
+message += `🧍 Nombre: ${document.getElementById("name").value}%0A`;
+message += `📍 Dirección: ${document.getElementById("address").value}%0A`;
+message += `🔔 Timbre / Depto / Piso: ${document.getElementById("timbre").value || "No indicado"}%0A`;
+message += `🚧 Entre calles: ${document.getElementById("cross").value}%0A`;
+message += `📝 Aclaraciones: ${document.getElementById("notes").value}%0A`;
   
   if (payment === "transferencia") {
     message += `%0ADatos para transferir:%0A🔸 Alias: leke.arg%0A🔸 Titular: Brenda de Oar%0A`;
