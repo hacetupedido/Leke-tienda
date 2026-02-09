@@ -863,37 +863,69 @@ section.innerHTML = `
 });
 
 
-
 document.getElementById("orderForm").addEventListener("submit", function(e) {
   e.preventDefault();
+
   if (cart.length === 0) {
     alert("Agregá al menos un producto al carrito.");
     return;
   }
 
-  let message = "Hola Leke! Quiero hacer un pedido:%0A";
-  let total = 0;
+  // Obtenemos los valores de los campos
+  const name     = document.getElementById("name").value.trim();
+  const address  = document.getElementById("address").value.trim();
+  const timbre   = document.getElementById("timbre").value.trim()  || "—";
+  const cross    = document.getElementById("cross").value.trim();
+  const notes    = document.getElementById("notes").value.trim()  || "—";
+  const payment  = document.getElementById("paymentMethod").value;
 
+  // Validación básica
+  if (!name || !address || !cross || !payment) {
+    alert("Completá los campos obligatorios:\n• Nombre\n• Dirección\n• Entre calles\n• Método de pago");
+    return;
+  }
+
+  let message = "Hola Leke! Quiero hacer un pedido:\n\n";
+
+  let total = 0;
   cart.forEach(item => {
-    message += `- ${item.name} ${item.option} x${item.qty}%0A`;
-    const price = parseInt(item.option.split("$")[1].replace(/[^0-9]/g, ""));
-    total += price * item.qty;
+    const precioStr = item.option.split("$")[1]?.replace(/[^0-9]/g, "") || "0";
+    const precio = parseInt(precioStr, 10) || 0;
+    total += precio * item.qty;
+
+    message += `• ${item.name}  ${item.option}  ×${item.qty}\n`;
   });
 
- message += `%0A🧾 Total: $${total}%0A`;
-message += `🧍 Nombre: ${document.getElementById("name").value}%0A`;
-message += `📍 Dirección: ${document.getElementById("address").value}%0A`;
-message += `🔔 Timbre / Depto / Piso: ${document.getElementById("timbre").value || "No indicado"}%0A`;
-message += `🚧 Entre calles: ${document.getElementById("cross").value}%0A`;
-message += `📝 Aclaraciones: ${document.getElementById("notes").value}%0A`;
-  
+  message += `\n💰 Total: $${total.toLocaleString('es-AR')}\n\n`;
+  message += `👤 Nombre: ${name}\n`;
+  message += `📍 Dirección: ${address}\n`;
+  message += `🔔 Timbre / Depto / Piso: ${timbre}\n`;
+  message += `🚦 Entre calles: ${cross}\n`;
+  message += `📝 Aclaraciones: ${notes}\n\n`;
+
   if (payment === "transferencia") {
-    message += `%0ADatos para transferir:%0A🔸 Alias: leke.arg%0A🔸 Titular: Brenda de Oar%0A`;
+    message += `💳 Pago: Transferencia\n`;
+    message += `Alias: leke.arg\n`;
+    message += `Titular: Brenda de Oar\n\n`;
+  } else {
+    message += `💵 Pago: Efectivo\n\n`;
   }
-  
-  submitSound.play().catch(err => console.log("Sonido bloqueado:", err));
-  window.open(`https://wa.me/541153107714?text=${message}`, "_blank");
+
+  message += "¡Muchas gracias! 😊";
+
+  const whatsappUrl = `https://wa.me/541153107714?text=${encodeURIComponent(message)}`;
+
+  submitSound.play().catch(() => { /* silencio si no puede reproducir */ });
+
+  try {
+    window.open(whatsappUrl, "_blank");
+  } catch (err) {
+    console.error("Error abriendo WhatsApp:", err);
+    alert("No pude abrir WhatsApp automáticamente.\n\nCopiá y pegá este mensaje manualmente:\n\n" + message);
+  }
 });
+
+
 function showNotification() {
   const notif = document.getElementById("notification");
   notif.classList.add("visible");
