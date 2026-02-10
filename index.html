@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <html lang="es">
@@ -606,6 +605,22 @@ button[type="button"]:active {
 <input id="timbre" type="text" placeholder="Ej: 5A, timbre 18, piso 3 dto B" />
 <label>Entre calles</label>
 <input id="cross" required="" type="text"/>
+<label>Localidad *</label>
+<select id="localidad" required>
+  <option value="">Elegí tu localidad</option>
+  <option value="glew_longchamps_burzaco">Glew / Longchamps / Burzaco</option>
+  <option value="adrogue_marmol_turdera">Adrogué / Marmol / Turdera</option>
+  <option value="temperley_lavallol">Temperley / Lavallol</option>
+  <option value="lomas_banfield">Lomas de Zamora / Banfield</option>
+  <option value="escalada_lanus">Escalada / Lanús</option>
+</select>
+
+<!-- Cartel de información de envío (aparece dinámicamente) -->
+<div id="infoEnvio" style="margin: 15px 0; padding: 14px; border-radius: 10px; background: #f0e8ff; border: 1px solid #d6cbe8; font-size: 15px; line-height: 1.45; display: none;">
+  <!-- El texto se pone con JavaScript -->
+</div>
+
+
 <label>Aclaraciones</label>
 <textarea id="notes" rows="2"></textarea>
 <label>Método de pago</label>
@@ -871,60 +886,94 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
     return;
   }
 
-  // Obtenemos los valores de los campos
+  // Obtenemos los valores
   const name     = document.getElementById("name").value.trim();
   const address  = document.getElementById("address").value.trim();
-  const timbre   = document.getElementById("timbre").value.trim()  || "—";
+  const timbre   = document.getElementById("timbre").value.trim() || "—";
   const cross    = document.getElementById("cross").value.trim();
-  const notes    = document.getElementById("notes").value.trim()  || "—";
+  const notes    = document.getElementById("notes").value.trim() || "—";
   const payment  = document.getElementById("paymentMethod").value;
 
-  // Validación básica
-  if (!name || !address || !cross || !payment) {
-    alert("Completá los campos obligatorios:\n• Nombre\n• Dirección\n• Entre calles\n• Método de pago");
+  // Localidad y config de envío
+  const localidadKey = document.getElementById("localidad").value;
+  const config = reglasEnvio[localidadKey] || { nombreMostrar: "No indicada", costoEnvio: "consultar", minimoGratis: 0 };
+  const localidadTexto = config.nombreMostrar || "No indicada";
+
+  // Validación
+  if (!name || !address || !cross || !payment || !localidadKey) {
+    alert("Completá los campos obligatorios:\n• Nombre\n• Dirección\n• Entre calles\n• Método de pago\n• Localidad");
     return;
   }
 
+  // Armamos el mensaje
   let message = "Hola Leke! Quiero hacer un pedido:\n\n";
 
-  let total = 0;
+  let subtotal = 0;
   cart.forEach(item => {
     const precioStr = item.option.split("$")[1]?.replace(/[^0-9]/g, "") || "0";
     const precio = parseInt(precioStr, 10) || 0;
-    total += precio * item.qty;
+    subtotal += precio * item.qty;
 
     message += `• ${item.name}  ${item.option}  ×${item.qty}\n`;
   });
 
-  message += `\n💰 Total: $${total.toLocaleString('es-AR')}\n\n`;
+  // Cálculo de envío
+  let envioValor = 0;
+  let envioTexto = "consultar";
+
+  if (typeof config.costoEnvio === "number") {
+    if (subtotal >= config.minimoGratis) {
+      envioValor = 0;
+      envioTexto = "GRATIS 🎉";
+    } else {
+      envioValor = config.costoEnvio;
+      envioTexto = `$${config.costoEnvio.toLocaleString('es-AR')}`;
+    }
+  } else {
+    envioTexto = config.costoEnvio;
+  }
+
+  const totalFinal = subtotal + envioValor;
+
+  // Parte principal (lo que ve el cliente primero)
+  message += `\nSubtotal (productos): $${subtotal.toLocaleString('es-AR')}\n`;
+  message += `Valor del envío: ${envioTexto}\n`;
+  message += `Total a pagar: $${totalFinal.toLocaleString('es-AR')}\n\n`;
+
+  // Datos de pago + instrucción (solo si es transferencia)
+  if (payment === "transferencia") {
+    message += `Datos para la transferencia:\n`;
+    message += `Alias: leke.arg\n`;
+    message += `Titular: Brenda de Oar\n\n`;
+    message += `Una vez realizada la transferencia, por favor enviame el comprobante para confirmar y preparar tu pedido lo antes posible. ¡Gracias! 😊\n\n`;
+  } else {
+    message += `Pago en efectivo al momento de la entrega.\n\n`;
+  }
+
+  // Datos de entrega (útil para vos, al final)
   message += `👤 Nombre: ${name}\n`;
   message += `📍 Dirección: ${address}\n`;
   message += `🔔 Timbre / Depto / Piso: ${timbre}\n`;
   message += `🚦 Entre calles: ${cross}\n`;
+  message += `📍 Localidad: ${localidadTexto}\n`;
   message += `📝 Aclaraciones: ${notes}\n\n`;
 
-  if (payment === "transferencia") {
-    message += `💳 Pago: Transferencia\n`;
-    message += `Alias: leke.arg\n`;
-    message += `Titular: Brenda de Oar\n\n`;
-  } else {
-    message += `💵 Pago: Efectivo\n\n`;
-  }
-
+  // Cierre (mantiene el tono del cliente)
+  message += `💳 Pago: ${payment === "transferencia" ? "Transferencia" : "Efectivo"}\n\n`;
   message += "¡Muchas gracias! 😊";
 
+  // Abrir WhatsApp
   const whatsappUrl = `https://wa.me/541153107714?text=${encodeURIComponent(message)}`;
 
-  submitSound.play().catch(() => { /* silencio si no puede reproducir */ });
+  submitSound.play().catch(() => {});
 
   try {
     window.open(whatsappUrl, "_blank");
   } catch (err) {
     console.error("Error abriendo WhatsApp:", err);
-    alert("No pude abrir WhatsApp automáticamente.\n\nCopiá y pegá este mensaje manualmente:\n\n" + message);
+    alert("No pude abrir WhatsApp automáticamente.\n\nCopiá y pegá este mensaje:\n\n" + message);
   }
 });
-
 
 function showNotification() {
   const notif = document.getElementById("notification");
@@ -982,6 +1031,7 @@ function updateCartUI() {
   });
 
   totalText.innerHTML = `<strong>Total: $${total}</strong>`;
+actualizarInfoEnvio();
 }
 
 
@@ -1033,6 +1083,63 @@ if (carousel) {
     images[currentIndex].style.display = 'block';
   }, 5000);  // cambia cada 5 segundos
 }
+// Reglas de envío personalizadas (ajustadas a lo que me pasaste)
+const reglasEnvio = {
+  "glew_longchamps_burzaco":     { minimoGratis: 15000, costoEnvio: 2000, nombreMostrar: "Glew / Longchamps / Burzaco" },
+  "adrogue_marmol_turdera":      { minimoGratis: 18000, costoEnvio: 3000, nombreMostrar: "Adrogué / Marmol / Turdera" },
+  "temperley_lavallol":          { minimoGratis: 20000, costoEnvio: 4000, nombreMostrar: "Temperley / Lavallol" },
+  "lomas_banfield":              { minimoGratis: 30000, costoEnvio: 4000, nombreMostrar: "Lomas de Zamora / Banfield" },
+  "escalada_lanus":              { minimoGratis: 50000, costoEnvio: 5000, nombreMostrar: "Escalada / Lanús" }
+};
+
+function actualizarInfoEnvio() {
+  const localidadKey = document.getElementById("localidad").value;
+  const infoDiv = document.getElementById("infoEnvio");
+  
+  if (!localidadKey) {
+    infoDiv.style.display = "none";
+    return;
+  }
+
+  const config = reglasEnvio[localidadKey];
+  if (!config) {
+    infoDiv.style.display = "none";
+    return;
+  }
+
+  // Calcular total actual del carrito
+  let total = 0;
+  cart.forEach(item => {
+    const precioStr = item.option.split("$")[1]?.replace(/[^0-9]/g, "") || "0";
+    const precio = parseInt(precioStr, 10) || 0;
+    total += precio * item.qty;
+  });
+
+  let texto = "";
+  const zona = config.nombreMostrar;
+
+  if (total >= config.minimoGratis) {
+    texto = `¡Envío <strong>GRATIS</strong> a ${zona}! 🎉<br>(mínimo $${config.minimoGratis.toLocaleString('es-AR')})`;
+    infoDiv.style.background = "#e6ffe6";  // verde suave
+    infoDiv.style.borderColor = "#28a745";
+  } else {
+    const falta = config.minimoGratis - total;
+    texto = `Te faltan <strong>$${falta.toLocaleString('es-AR')}</strong> para envío GRATIS a ${zona}.<br>
+             Envío normal: $${config.costoEnvio.toLocaleString('es-AR')}`;
+    infoDiv.style.background = "#fff3cd";  // amarillo suave
+    infoDiv.style.borderColor = "#ffc107";
+  }
+
+  infoDiv.innerHTML = texto;
+  infoDiv.style.display = "block";
+}
+
+// Escuchar cambios en localidad
+document.getElementById("localidad").addEventListener("change", actualizarInfoEnvio);
+
+// Actualizar también cada vez que cambia el carrito
+// (agregá esta línea al FINAL de tu función updateCartUI())
+actualizarInfoEnvio();
 </script>
 </body>
 </html>
