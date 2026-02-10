@@ -938,13 +938,13 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
   // Parte principal (lo que ve el cliente primero)
   message += `\nSubtotal (productos): $${subtotal.toLocaleString('es-AR')}\n`;
   message += `Valor del envío: ${envioTexto}\n`;
-  message += `Total a pagar: $${totalFinal.toLocaleString('es-AR')}\n\n`;
+  message += `*Total a pagar: $${totalFinal.toLocaleString('es-AR')}*\n\n`;
 
   // Datos de pago + instrucción (solo si es transferencia)
   if (payment === "transferencia") {
-    message += `Datos para la transferencia:\n`;
-    message += `Alias: leke.arg\n`;
-    message += `Titular: Brenda de Oar\n\n`;
+    message += `*Datos para la transferencia:*\n`;
+    message += `*Alias: leke.arg*\n`;
+    message += `*Titular: Brenda de Oar*\n\n`;
     message += `Una vez realizada la transferencia, por favor enviame el comprobante para confirmar y preparar tu pedido lo antes posible. ¡Gracias! 😊\n\n`;
   } else {
     message += `Pago en efectivo al momento de la entrega.\n\n`;
