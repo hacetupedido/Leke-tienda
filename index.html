@@ -941,6 +941,7 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
   message += `*Total a pagar: $${totalFinal.toLocaleString('es-AR')}*\n\n`;
 
   // Datos de pago + instrucción (solo si es transferencia)
+   message += `💳 Pago: ${payment === "transferencia" ? "Transferencia" : "Efectivo"}\n\n`;
   if (payment === "transferencia") {
     message += `_*Datos para la transferencia:*_\n`;
     message += `_*Alias: leke.arg*_\n`;
@@ -959,7 +960,7 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
   message += `📝 Aclaraciones: ${notes}\n\n`;
 
   // Cierre (mantiene el tono del cliente)
-  message += `💳 Pago: ${payment === "transferencia" ? "Transferencia" : "Efectivo"}\n\n`;
+  
   message += "¡Muchas gracias! 😊";
 
   // Abrir WhatsApp
