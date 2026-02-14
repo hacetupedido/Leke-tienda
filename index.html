@@ -394,30 +394,6 @@ button[type="button"]:active {
         transform: translateX(0);
     }
    }
-/* Categoría San Valentín – sutil, solo corazón a la derecha */
-.category-header.san-valentin {
-  position: relative;
-  padding-right: 40px !important; /* espacio para el corazón a la derecha */
-}
-
-.category-header.san-valentin::after {
-  content: "❤️";
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 20px;
-  color: #E91E63; /* rosa romántico */
-}
-   .category-header.san-valentin:hover::after {
-  animation: heartbeat 1.5s infinite;
-}
-
-@keyframes heartbeat {
-  0% { transform: translateY(-50%) scale(1); }
-  50% { transform: translateY(-50%) scale(1.2); }
-  100% { transform: translateY(-50%) scale(1); }
-}
 .banner-carousel {
   max-width: 960px;
   margin: 15px auto;
@@ -579,9 +555,9 @@ button[type="button"]:active {
   <img src="https://i.imgur.com/Rnt7Mqo.png" alt="Leke">
 </div>
 <div class="banner-carousel">
-  <img src="https://i.ibb.co/8DVyPMhL/1.png" alt="sanvalentin">
+  <img src="https://i.imgur.com/d4etaOS.png" alt="sanvalentin">
   <img src="https://i.ibb.co/cXYw1cw4/San-Valent-n.png" alt="cookie">
-  <img src="https://i.imgur.com/o9YAPpD.png" alt="envios">
+  <img src="https://i.imgur.com/nFQgVJ7.png" alt="envios">
 
 
 
@@ -645,25 +621,7 @@ button[type="button"]:active {
 </div>
 <script>
 const productsData = [
-     {
-    name: "Box Flork 2 unidades",
-    category: "San Valentin",
-    description: "2 Cookies a elección surtidas",
-    image: "https://i.ibb.co/xSmg2JCk/san-valentin-1.jpg",
-    options: [
-      "Unidad $12000",
-    ]
-  },
-   {
-    name: "Box: Contiene amor. 6 unidades",
-    category: "San Valentin",
-    description: "6 Cookies surtidas",
-    image: "https://i.ibb.co/3mXWzq4K/san-valentin-2.png",
-    options: [
-      "Unidad $35000",
-    ]
-  },
-   {
+        {
     name: "New York Cookie Oreo",
     category: "Cookies",
     description: "Con chips de chocolate y relleno con galletita oreo.",
@@ -738,7 +696,7 @@ name: "Box degustación",
 
     name: "Pan integral",
     category: "Productos integrales",
-    description: "Pan integral, elaborado artesanalmente. Ideal para desayunos y meriendas. Se conserva en heladera (9 días) o freezer (3 meses). Peso: 600g.",
+    description: "Pan integral, elaborado artesanalmente. Al ser un producto sin conservantes, recomendamos conservarlo en heladera o freezer desde el primer día para mantener su frescura. Se conserva en heladera (7 días) o freezer (3 meses). Peso: 600g.",
     image: "https://i.imgur.com/HwHmwXy.jpeg",
     options: [
       "Unidad $3600",
@@ -941,7 +899,6 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
   message += `*Total a pagar: $${totalFinal.toLocaleString('es-AR')}*\n\n`;
 
   // Datos de pago + instrucción (solo si es transferencia)
-   message += `💳 Pago: ${payment === "transferencia" ? "Transferencia" : "Efectivo"}\n\n`;
   if (payment === "transferencia") {
     message += `_*Datos para la transferencia:*_\n`;
     message += `_*Alias: leke.arg*_\n`;
@@ -960,7 +917,7 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
   message += `📝 Aclaraciones: ${notes}\n\n`;
 
   // Cierre (mantiene el tono del cliente)
-  
+  message += `💳 Pago: ${payment === "transferencia" ? "Transferencia" : "Efectivo"}\n\n`;
   message += "¡Muchas gracias! 😊";
 
   // Abrir WhatsApp
