@@ -546,6 +546,129 @@ button[type="button"]:active {
     padding-right: 0;
     font-size: 17px;
   }
+
+}
+/* Cartel de información de envío - MÁS VISIBLE */
+#infoEnvio {
+  margin: 15px 0;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+  display: none;
+  border: 3px solid;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  animation: pulseInfo 2s ease-in-out infinite;
+}
+
+#infoEnvio.envio-gratis {
+  background: #d4edda;
+  border-color: #28a745;
+  color: #155724;
+}
+
+#infoEnvio.falta-envio {
+  background: #fff3cd;
+  border-color: #ff9800;
+  color: #856404;
+}
+
+@keyframes pulseInfo {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* Modal de confirmación */
+#modalConfirmacion {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-content h3 {
+  color: #ff9800;
+  margin: 0 0 15px 0;
+  font-size: 22px;
+}
+
+.modal-content p {
+  color: #4A4A4A;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 15px 0;
+}
+
+.modal-content .falta-monto {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff5722;
+  margin: 10px 0;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal-buttons button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 0;
+}
+
+.btn-volver {
+  background: #6c757d;
+  color: white;
+}
+
+.btn-volver:hover {
+  background: #5a6268;
+}
+
+.btn-continuar {
+  background: #ff9800;
+  color: white;
+}
+
+.btn-continuar:hover {
+  background: #e68900;
 }
 </style>
 </head>
@@ -592,7 +715,8 @@ button[type="button"]:active {
 </select>
 
 <!-- Cartel de información de envío (aparece dinámicamente) -->
-<div id="infoEnvio" style="margin: 15px 0; padding: 14px; border-radius: 10px; background: #f0e8ff; border: 1px solid #d6cbe8; font-size: 15px; line-height: 1.45; display: none;">
+<!-- Cartel de información de envío (aparece dinámicamente) -->
+<div id="infoEnvio">
   <!-- El texto se pone con JavaScript -->
 </div>
 
@@ -923,34 +1047,18 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
 
   const totalFinal = subtotal + envioValor;
 
-  // Parte principal (lo que ve el cliente primero)
-  message += `\nSubtotal (productos): $${subtotal.toLocaleString('es-AR')}\n`;
-  message += `Valor del envío: ${envioTexto}\n`;
-  message += `*Total a pagar: $${totalFinal.toLocaleString('es-AR')}*\n\n`;
-
-  // Datos de pago + instrucción (solo si es transferencia)
-  if (payment === "transferencia") {
-    message += `_*Datos para la transferencia:*_\n`;
-    message += `_*Alias: leke.arg*_\n`;
-    message += `_*Titular: Brenda de Oar*_\n\n`;
-    message += `Una vez realizada la transferencia, por favor enviame el comprobante para confirmar y preparar tu pedido lo antes posible. ¡Gracias! 😊\n\n`;
-  } else {
-    message += `Pago en efectivo al momento de la entrega.\n\n`;
+  // VERIFICAR SI FALTA PARA ENVÍO GRATIS
+  if (subtotal < config.minimoGratis && typeof config.costoEnvio === "number") {
+    const falta = config.minimoGratis - subtotal;
+    document.getElementById("modalFalta").textContent = `$${falta.toLocaleString('es-AR')}`;
+    pedidoPendiente = construirMensajeCompleto(message, subtotal, envioValor, envioTexto, totalFinal, name, address, timbre, cross, localidadTexto, notes, payment);
+    document.getElementById("modalConfirmacion").style.display = "flex";
+    return; // No enviamos todavía
   }
 
-  // Datos de entrega (útil para vos, al final)
-  message += `👤 Nombre: ${name}\n`;
-  message += `📍 Dirección: ${address}\n`;
-  message += `🔔 Timbre / Depto / Piso: ${timbre}\n`;
-  message += `🚦 Entre calles: ${cross}\n`;
-  message += `📍 Localidad: ${localidadTexto}\n`;
-  message += `📝 Aclaraciones: ${notes}\n\n`;
+  // Si ya tiene envío gratis o no aplica, enviar directo
+  message = construirMensajeCompleto(message, subtotal, envioValor, envioTexto, totalFinal, name, address, timbre, cross, localidadTexto, notes, payment);
 
-  // Cierre (mantiene el tono del cliente)
-  message += `💳 Pago: ${payment === "transferencia" ? "Transferencia" : "Efectivo"}\n\n`;
-  message += "¡Muchas gracias! 😊";
-
-  // Abrir WhatsApp
   const whatsappUrl = `https://wa.me/541153107714?text=${encodeURIComponent(message)}`;
 
   submitSound.play().catch(() => {});
@@ -962,6 +1070,35 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
     alert("No pude abrir WhatsApp automáticamente.\n\nCopiá y pegá este mensaje:\n\n" + message);
   }
 });
+
+function construirMensajeCompleto(messageBase, subtotal, envioValor, envioTexto, totalFinal, name, address, timbre, cross, localidadTexto, notes, payment) {
+  let message = messageBase;
+  
+  message += `\nSubtotal (productos): $${subtotal.toLocaleString('es-AR')}\n`;
+  message += `Valor del envío: ${envioTexto}\n`;
+  message += `*Total a pagar: $${totalFinal.toLocaleString('es-AR')}*\n\n`;
+
+  if (payment === "transferencia") {
+    message += `_*Datos para la transferencia:*_\n`;
+    message += `_*Alias: leke.arg*_\n`;
+    message += `_*Titular: Brenda de Oar*_\n\n`;
+    message += `Una vez realizada la transferencia, por favor enviame el comprobante para confirmar y preparar tu pedido lo antes posible. ¡Gracias! 😊\n\n`;
+  } else {
+    message += `Pago en efectivo al momento de la entrega.\n\n`;
+  }
+
+  message += `👤 Nombre: ${name}\n`;
+  message += `📍 Dirección: ${address}\n`;
+  message += `🔔 Timbre / Depto / Piso: ${timbre}\n`;
+  message += `🚦 Entre calles: ${cross}\n`;
+  message += `📍 Localidad: ${localidadTexto}\n`;
+  message += `📝 Aclaraciones: ${notes}\n\n`;
+
+  message += `💳 Pago: ${payment === "transferencia" ? "Transferencia" : "Efectivo"}\n\n`;
+  message += "¡Muchas gracias! 😊";
+
+  return message;
+}
 
 function showNotification() {
   const notif = document.getElementById("notification");
@@ -1106,28 +1243,65 @@ function actualizarInfoEnvio() {
   let texto = "";
   const zona = config.nombreMostrar;
 
+  // Remover clases anteriores
+  infoDiv.className = "";
+
   if (total >= config.minimoGratis) {
-    texto = `¡Envío <strong>GRATIS</strong> a ${zona}! 🎉<br>(mínimo $${config.minimoGratis.toLocaleString('es-AR')})`;
-    infoDiv.style.background = "#e6ffe6";  // verde suave
-    infoDiv.style.borderColor = "#28a745";
+    texto = `🎉 ¡ENVÍO <strong>GRATIS</strong> a ${zona}! 🎉<br><small>(Superaste el mínimo de $${config.minimoGratis.toLocaleString('es-AR')})</small>`;
+    infoDiv.classList.add("envio-gratis");
   } else {
     const falta = config.minimoGratis - total;
-    texto = `Te faltan <strong>$${falta.toLocaleString('es-AR')}</strong> para envío GRATIS a ${zona}.<br>
-             Envío normal: $${config.costoEnvio.toLocaleString('es-AR')}`;
-    infoDiv.style.background = "#fff3cd";  // amarillo suave
-    infoDiv.style.borderColor = "#ffc107";
+    texto = `⚠️ Te faltan solo <strong>$${falta.toLocaleString('es-AR')}</strong> para ENVÍO GRATIS<br>
+             <small>Envío a ${zona}: $${config.costoEnvio.toLocaleString('es-AR')} | Gratis desde $${config.minimoGratis.toLocaleString('es-AR')}</small>`;
+    infoDiv.classList.add("falta-envio");
   }
 
   infoDiv.innerHTML = texto;
   infoDiv.style.display = "block";
 }
-
 // Escuchar cambios en localidad
 document.getElementById("localidad").addEventListener("change", actualizarInfoEnvio);
 
 // Actualizar también cada vez que cambia el carrito
-// (agregá esta línea al FINAL de tu función updateCartUI())
 actualizarInfoEnvio();
+
+// Variables globales para el modal
+let pedidoPendiente = null;
+
+function cerrarModal() {
+  document.getElementById("modalConfirmacion").style.display = "none";
+  pedidoPendiente = null;
+}
+
+function continuarSinEnvioGratis() {
+  if (pedidoPendiente) {
+    const whatsappUrl = `https://wa.me/541153107714?text=${encodeURIComponent(pedidoPendiente)}`;
+    submitSound.play().catch(() => {});
+    try {
+      window.open(whatsappUrl, "_blank");
+    } catch (err) {
+      console.error("Error abriendo WhatsApp:", err);
+      alert("No pude abrir WhatsApp automáticamente.\n\nCopiá y pegá este mensaje:\n\n" + pedidoPendiente);
+    }
+  }
+  cerrarModal();
+}
 </script>
+
+</script>
+<!-- Modal de confirmación de envío -->
+<div id="modalConfirmacion">
+  <div class="modal-content">
+    <h3>⚠️ ¡Espera un momento!</h3>
+    <p>Todavía no alcanzaste el <strong>envío GRATIS</strong></p>
+    <p class="falta-monto">Te faltan solo <span id="modalFalta">$0</span></p>
+    <p>¿Querés agregar algo más al carrito y ahorrar en el envío?</p>
+    <div class="modal-buttons">
+      <button class="btn-volver" onclick="cerrarModal()">Volver y agregar más</button>
+      <button class="btn-continuar" onclick="continuarSinEnvioGratis()">Continuar igual</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
