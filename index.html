@@ -707,7 +707,8 @@ button[type="button"]:active {
 <label>Localidad *</label>
 <select id="localidad" required>
   <option value="">Elegí tu localidad</option>
-  <option value="glew_longchamps_burzaco">Glew / Longchamps / Burzaco</option>
+  <option value="glew_longchamps_burzaco">Longchamps / Burzaco</option>
+   <option value="glew_longchamps_burzaco">Glew</option>
   <option value="adrogue_marmol_turdera">Adrogué / Marmol / Calzada / Turdera</option>
   <option value="temperley_lavallol">Temperley / Claypole / Lavallol</option>
   <option value="lomas_banfield">Lomas de Zamora / Banfield</option>
@@ -1210,7 +1211,8 @@ if (carousel) {
 }
 // Reglas de envío personalizadas (ajustadas a lo que me pasaste)
 const reglasEnvio = {
-  "glew_longchamps_burzaco":     { minimoGratis: 15000, costoEnvio: 2000, nombreMostrar: "Glew / Longchamps / Burzaco" },
+  "longchamps_burzaco":     { minimoGratis: 15000, costoEnvio: 2000, nombreMostrar: "Glew / Longchamps / Burzaco" },
+   "glew":     { minimoGratis: 17000, costoEnvio: 5000, nombreMostrar: "Glew" },
   "adrogue_marmol_turdera":      { minimoGratis: 18000, costoEnvio: 4000, nombreMostrar: "Adrogué / Marmol / Turdera" },
   "temperley_lavallol":          { minimoGratis: 20000, costoEnvio: 5000, nombreMostrar: "Temperley / Lavallol" },
   "lomas_banfield":              { minimoGratis: 30000, costoEnvio: 6000, nombreMostrar: "Lomas de Zamora / Banfield" },
