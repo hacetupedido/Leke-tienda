@@ -100,7 +100,26 @@ input, select, textarea {
   box-sizing: border-box; /* clave: evita que padding sume ancho extra */
   font-size: 16px; /* legible en móvil */
 }
+/* Select de productos más llamativo */
+.info select:first-of-type {
+  border: 2px solid #B89AD9;
+  background-color: #fff;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
+.info select:first-of-type:hover {
+  border-color: #9E7CCB;
+  background-color: #f8f4fc;
+}
+
+.info select:first-of-type:focus {
+  outline: none;
+  border-color: #9E7CCB;
+  box-shadow: 0 0 0 3px rgba(184, 154, 217, 0.2);
+}
 /* Botón: full width, sin cortes */
 button {
   margin-top: 20px;
@@ -140,15 +159,42 @@ button:hover {
     padding: 16px; /* más alto para tocar fácil en dedo */
   }
 }
+
 /* Categorías colapsables */
 .category-header {
     background: #FFFFFF;
     border: 1px solid #D6CBE8;
     border-radius: 10px;
-    padding: 14px;
+    padding: 14px 45px 14px 14px;
     margin: 16px 0 8px;
     font-weight: 600;
     cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.category-header:hover {
+    background: #f8f4fc;
+    border-color: #B89AD9;
+}
+
+/* Flecha indicadora */
+.category-header::after {
+    content: "";
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    border-right: 3px solid #B89AD9;
+    border-bottom: 3px solid #B89AD9;
+    transform: translateY(-50%) rotate(45deg);
+    transition: transform 0.3s ease;
+}
+
+/* Flecha rota cuando la categoría está abierta */
+.category-header.active::after {
+    transform: translateY(-50%) rotate(-135deg);
 }
 
 .category-content {
@@ -687,6 +733,9 @@ button[type="button"]:active {
 
 
 <form id="orderForm">
+<p style="text-align: center; color: #9E7CCB; font-size: 15px; margin: 20px 0 10px; font-weight: 500;">
+  👇 Tocá cada categoría para ver los productos y precios
+</p>
 <div id="products" class="products"></div>
 <div class="form-section">
 <div id="carritoContainer" style="margin-top: 20px;">
@@ -962,12 +1011,12 @@ section.innerHTML = `
           <p><strong>${prod.name}</strong></p>
           <p>${prod.description}</p>
           <label>Opción</label>
-          <select id="product${Math.random()}">
-            <option value="">Elegí una opción</option>
-            ${prod.options.map(opt => `<option value="${opt}">${opt}</option>`).join("")}
-          </select>
-          <label>Cantidad</label>
-          <select id="qty${Math.random()}">
+         <select id="product${Math.random()}">
+  <option value="">👇 Ver precios y opciones</option>
+  ${prod.options.map(opt => `<option value="${opt}">${opt}</option>`).join("")}
+</select>
+          <label>Opción</label>
+<select id="product${Math.random()}">
             ${[...Array(10)].map((_, n) => `<option value="${n+1}">${n+1}</option>`).join("")}
           </select>
           <button type="button" onclick="addToCartByName('${prod.name}', this)">Agregar al carrito</button>
@@ -1152,12 +1201,17 @@ function toggleCategory(header) {
   const content = header.nextElementSibling;
   const isOpen = content.classList.contains("active");
 
+  // Cerrar todas las categorías y sus headers
   document.querySelectorAll(".category-content").forEach(c => {
     c.classList.remove("active");
+  });
+  document.querySelectorAll(".category-header").forEach(h => {
+    h.classList.remove("active");
   });
 
   if (!isOpen) {
     content.classList.add("active");
+    header.classList.add("active");
     openCategorySound.play().catch(err => console.log("Sonido bloqueado:", err));
     
     setTimeout(() => {
@@ -1277,7 +1331,6 @@ function continuarSinEnvioGratis() {
 }
 </script>
 
-</script>
 <!-- Modal de confirmación de envío -->
 <div id="modalConfirmacion">
   <div class="modal-content">
