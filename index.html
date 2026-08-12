@@ -928,8 +928,8 @@ const productsData = [
     description: "Pan integral, elaborado artesanalmente. Al ser un producto sin conservantes, recomendamos conservarlo en heladera o freezer desde el primer día para mantener su frescura. Se conserva en heladera (7 días) o freezer (3 meses). Peso: 600g.",
     image: "https://i.imgur.com/HwHmwXy.jpeg", disponible: true,
     variantes: [
-      { label: "Entero", opciones: ["Unidad $4100", "Promo 3 unidades $11000", "15 unidades $48.000"] },
-      { label: "Rebanado", opciones: ["Unidad cortado $5100", "Promo 3 unidades cortadas $14000"] }
+      { label: "Entero", opciones: ["1 x $4100", "3 x $11000", "15 x $48000"] },
+      { label: "Rebanado", opciones: ["1 x $5100", "3 x $14000"] }
     ]
   },
   {
@@ -1145,7 +1145,16 @@ function addToCartByName(id) {
 
   if (!option) return alert("Seleccioná una opción válida.");
 
-  cart.push({ name: product.name, option, qty });
+  let displayName = product.name;
+  if (product.variantes) {
+    const toggle = document.getElementById("variant-" + id);
+    const botones = Array.from(toggle.querySelectorAll(".variant-btn"));
+    const activeIndex = botones.findIndex(b => b.classList.contains("active"));
+    const variante = product.variantes[activeIndex];
+    if (variante) displayName = `${product.name} ${variante.label.toLowerCase()}`;
+  }
+
+  cart.push({ productId: id, name: displayName, option, qty });
   updateCartUI();
   showNotification();
 }
@@ -1185,7 +1194,7 @@ function updateCartUI() {
 
     const li = document.createElement("li");
     li.innerHTML = `
-      <span class='cart-item-text'>${item.name} x${item.qty} ${item.option}</span>
+      <span class='cart-item-text'>${item.name} · ${item.option} · ×${item.qty}</span>
       <button class='remove-btn' type="button" onclick='removeFromCart(${index})'>Eliminar</button>`;
     cartList.appendChild(li);
   });
@@ -1377,7 +1386,7 @@ document.getElementById("orderForm").addEventListener("submit", function (e) {
     subtotal += precio * item.qty;
     message += `• ${item.name}  ${item.option}  ×${item.qty}\n`;
 
-    const prod = productsData.find(p => p.name === item.name);
+    const prod = productsData.find(p => p.id === item.productId) || productsData.find(p => p.name === item.name);
     if (prod && prod.instructivo) {
       instructivosAIncluir.set(prod.name, prod.instructivo);
     }
