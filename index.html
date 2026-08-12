@@ -197,6 +197,40 @@ input.input-error, select.input-error {
   box-shadow: 0 0 0 3px rgba(184, 154, 217, 0.2);
 }
 
+/* Toggle de variantes (ej: Entero / Rebanado) */
+.variant-toggle {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.variant-btn {
+  flex: 1;
+  min-width: 100px;
+  margin: 0;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  background-color: #FFFFFF;
+  color: #9E7CCB;
+  border: 2px solid #D6CBE8;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.variant-btn:hover {
+  border-color: #9E7CCB;
+  background-color: #f8f4fc;
+}
+
+.variant-btn.active {
+  background-color: #B89AD9;
+  color: #FFFFFF;
+  border-color: #B89AD9;
+}
+
 /* Stepper de cantidad */
 .qty-stepper {
   display: flex;
@@ -893,7 +927,10 @@ const productsData = [
     id: 5, name: "Pan integral", category: "Productos integrales",
     description: "Pan integral, elaborado artesanalmente. Al ser un producto sin conservantes, recomendamos conservarlo en heladera o freezer desde el primer día para mantener su frescura. Se conserva en heladera (7 días) o freezer (3 meses). Peso: 600g.",
     image: "https://i.imgur.com/HwHmwXy.jpeg", disponible: true,
-    options: ["Unidad $4100", "Unidad cortado $5100", "Promo 3 unidades $11000", "Promo 3 unidades cortadas $14000", "15 unidades $48.000"]
+    variantes: [
+      { label: "Entero", opciones: ["Unidad $4100", "Promo 3 unidades $11000", "15 unidades $48.000"] },
+      { label: "Rebanado", opciones: ["Unidad cortado $5100", "Promo 3 unidades cortadas $14000"] }
+    ]
   },
   {
     id: 6, name: "Fosforitos rellenos de jamón y queso", category: "Catering",
@@ -986,6 +1023,50 @@ function guardarCarrito() {
   }
 }
 
+// ============ RENDER DE OPCIONES (simple o con variantes) ============
+function renderOpcionesHTML(prod) {
+  return `
+    <label for="opt-${prod.id}">Elegí tu opción</label>
+    <select id="opt-${prod.id}" ${prod.disponible === false ? "disabled" : ""}>
+      <option value="">👇 Ver precios y promos</option>
+      ${prod.options.map(opt => `<option value="${opt}">${opt}</option>`).join("")}
+    </select>
+  `;
+}
+
+function renderVariantesHTML(prod) {
+  return `
+    <label>¿Cómo querés el pan?</label>
+    <div class="variant-toggle" id="variant-${prod.id}">
+      ${prod.variantes.map((v, i) => `
+        <button type="button" class="variant-btn${i === 0 ? " active" : ""}"
+          onclick="seleccionarVariante(${prod.id}, ${i})"
+          ${prod.disponible === false ? "disabled" : ""}>${v.label}</button>
+      `).join("")}
+    </div>
+
+    <label for="opt-${prod.id}">Elegí tu opción</label>
+    <select id="opt-${prod.id}" ${prod.disponible === false ? "disabled" : ""}>
+      <option value="">👇 Ver precios y promos</option>
+      ${prod.variantes[0].opciones.map(opt => `<option value="${opt}">${opt}</option>`).join("")}
+    </select>
+  `;
+}
+
+function seleccionarVariante(prodId, variantIndex) {
+  const prod = productsData.find(p => p.id === prodId);
+  const variante = prod.variantes[variantIndex];
+  const select = document.getElementById("opt-" + prodId);
+
+  select.innerHTML = `<option value="">👇 Ver precios y promos</option>` +
+    variante.opciones.map(opt => `<option value="${opt}">${opt}</option>`).join("");
+
+  const toggle = document.getElementById("variant-" + prodId);
+  toggle.querySelectorAll(".variant-btn").forEach((btn, i) => {
+    btn.classList.toggle("active", i === variantIndex);
+  });
+}
+
 // ============ RENDER DE PRODUCTOS ============
 const categories = [...new Set(productsData.map(p => p.category))];
 
@@ -1017,11 +1098,7 @@ categories.forEach(cat => {
           <p><strong>${prod.name}</strong></p>
           <p>${prod.description}</p>
 
-          <label for="opt-${prod.id}">Elegí tu opción</label>
-          <select id="opt-${prod.id}" ${prod.disponible === false ? "disabled" : ""}>
-            <option value="">👇 Ver precios y opciones</option>
-            ${prod.options.map(opt => `<option value="${opt}">${opt}</option>`).join("")}
-          </select>
+          ${prod.variantes ? renderVariantesHTML(prod) : renderOpcionesHTML(prod)}
 
           <label for="qty-${prod.id}">Cantidad</label>
           <div class="qty-stepper">
