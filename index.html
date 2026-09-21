@@ -87,6 +87,42 @@ h1 {
   display: none;
 }
 
+/* Cartel de tienda cerrada */
+#tiendaCerrada {
+  display: none;
+  text-align: center;
+  background-color: #FFFFFF;
+  border: 2px solid #D6CBE8;
+  border-radius: 16px;
+  padding: 40px 20px;
+  margin: 20px 0 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+#tiendaCerradaIcono {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+#tiendaCerrada h2 {
+  color: #9E7CCB;
+  font-size: 22px;
+  margin: 10px 0;
+}
+
+#tiendaCerrada p {
+  color: #4A4A4A;
+  font-size: 16px;
+  line-height: 1.5;
+  max-width: 420px;
+  margin: 8px auto;
+}
+
+#tiendaCerradaFecha {
+  font-weight: 600;
+  color: #9E7CCB;
+}
+
 /* Productos */
 .product {
     display: flex;
@@ -792,19 +828,27 @@ button[type="button"]:active {
   <img src="https://i.imgur.com/nFQgVJ7.png" alt="Envíos">
 </div>
 
+<!-- Cartel de tienda cerrada (se muestra/oculta según SHOP_OPEN en el script) -->
+<div id="tiendaCerrada">
+  <div id="tiendaCerradaIcono">🥖💤</div>
+  <h2 id="tiendaCerradaTitulo"></h2>
+  <p id="tiendaCerradaMensaje"></p>
+  <p id="tiendaCerradaFecha"></p>
+</div>
+
 <form id="orderForm">
-<p style="text-align: center; color: #9E7CCB; font-size: 15px; margin: 20px 0 10px; font-weight: 500;">
+<p id="instructivoBusqueda" style="text-align: center; color: #9E7CCB; font-size: 15px; margin: 20px 0 10px; font-weight: 500;">
   👇 Tocá cada categoría para ver los productos y precios
 </p>
 
-<div class="search-bar">
+<div class="search-bar" id="searchBarWrapper">
   <input type="text" id="searchInput" placeholder="Buscar un producto (ej: cookie, chipa, pan)...">
 </div>
 
 <div id="products" class="products"></div>
 <p class="no-results" id="noResults">No encontramos productos que coincidan con tu búsqueda 🥲</p>
 
-<div class="form-section">
+<div class="form-section" id="formSection">
 <div id="carritoContainer">
 <button onclick="toggleCarrito()" type="button">🛒 Ver pedido</button>
 <div id="carritoDetalle">
@@ -885,10 +929,15 @@ button[type="button"]:active {
 </div>
 
 <script>
-    const SHOP_OPEN = false;   // true = abierta, false = cerrada
+// ============ CONFIG ============
+// 👉 Para cerrar la tienda temporalmente, poné SHOP_OPEN en false.
+// Cuando quieras volver a abrir, ponelo en true de nuevo.
+const SHOP_OPEN = false;
+
+// Mensaje que ve el cliente cuando la tienda está cerrada (SHOP_OPEN = false)
 const SHOP_CLOSED_TITLE = "Estamos tomando un descanso 🌙";
 const SHOP_CLOSED_MESSAGE = "No estamos tomando pedidos por unos días. ¡Volvemos pronto!";
-// ============ CONFIG ============
+
 const WHATSAPP_NUMBER = "541153107714";
 const CART_STORAGE_KEY = "leke_cart";
 const OPEN_CATEGORY_KEY = "leke_open_category";
@@ -1550,8 +1599,37 @@ if (carousel) {
   }, 5000);
 }
 
+// ============ TIENDA ABIERTA / CERRADA ============
+function aplicarEstadoTienda() {
+  if (SHOP_OPEN) return; // tienda abierta: no se toca nada
+
+  // Ocultar todo lo que permite armar y enviar un pedido
+  const elementosAOcultar = [
+    "instructivoBusqueda",
+    "searchBarWrapper",
+    "products",
+    "noResults",
+    "formSection"
+  ];
+  elementosAOcultar.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+  });
+
+  const miniCart = document.getElementById("miniCartBar");
+  if (miniCart) miniCart.style.display = "none";
+
+  // Mostrar el cartel de "cerrado"
+  document.getElementById("tiendaCerradaTitulo").textContent = SHOP_CLOSED_TITLE;
+  document.getElementById("tiendaCerradaMensaje").textContent = SHOP_CLOSED_MESSAGE;
+  const fechaEl = document.getElementById("tiendaCerradaFecha");
+  fechaEl.textContent = (typeof SHOP_CLOSED_DATE !== "undefined" && SHOP_CLOSED_DATE) ? `Volvemos a abrir: ${SHOP_CLOSED_DATE}` : "";
+  document.getElementById("tiendaCerrada").style.display = "block";
+}
+
 // ============ INICIALIZACIÓN ============
 updateCartUI();
+aplicarEstadoTienda();
 </script>
 
 </body>
