@@ -930,13 +930,14 @@ button[type="button"]:active {
 
 <script>
 // ============ CONFIG ============
-// 👉 Para cerrar la tienda temporalmente, poné SHOP_OPEN en false.
-// Cuando quieras volver a abrir, ponelo en true de nuevo.
+// 👉 La tienda toma pedidos 1 vez por mes. Por defecto queda CERRADA (false).
+// Cuando llegue el día de abrir pedidos, cambiá esta línea a true.
+// Cuando se cierre esa tanda de pedidos, volvela a false.
 const SHOP_OPEN = false;
-
+ 
 // Mensaje que ve el cliente cuando la tienda está cerrada (SHOP_OPEN = false)
-const SHOP_CLOSED_TITLE = "Estamos tomando un descanso 🌙";
-const SHOP_CLOSED_MESSAGE = "No estamos tomando pedidos por unos días. ¡Volvemos pronto!";
+const SHOP_CLOSED_TITLE = "¡Ya cerramos los pedidos de este mes! 🥖";
+const SHOP_CLOSED_MESSAGE = "Abrimos pedidos una vez por mes. Seguinos en Instagram y TikTok (@leke.arg) para enterarte apenas abramos la próxima tanda.";
 
 const WHATSAPP_NUMBER = "541153107714";
 const CART_STORAGE_KEY = "leke_cart";
