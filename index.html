@@ -10,7 +10,7 @@
 
 <!-- Open Graph: así se ve el link cuando lo compartís por WhatsApp / redes -->
 <meta property="og:title" content="Leke - Hacé tu pedido">
-<meta property="og:description" content="Pan integral, cookies, congelados y más. Pedí online y coordinamos la entrega.">
+<meta property="og:description" content="Pan integral, cookies, congelados y más. Pedí online y coordinamos el retiro.">
 <meta property="og:image" content="https://i.imgur.com/Rnt7Mqo.png">
 <meta property="og:type" content="website">
 
@@ -690,129 +690,6 @@ button[type="button"]:active {
 .social-footer a:hover img {
   transform: scale(1.2);
 }
-
-/* Cartel de información de envío */
-#infoEnvio {
-  margin: 15px 0;
-  padding: 16px;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.5;
-  text-align: center;
-  display: none;
-  border: 3px solid;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  animation: pulseInfo 2s ease-in-out infinite;
-}
-
-#infoEnvio.envio-gratis {
-  background: #d4edda;
-  border-color: #28a745;
-  color: #155724;
-}
-
-#infoEnvio.falta-envio {
-  background: #fff3cd;
-  border-color: #ff9800;
-  color: #856404;
-}
-
-@keyframes pulseInfo {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.02); }
-}
-
-/* Modal de confirmación */
-#modalConfirmacion {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.modal-content {
-  background: white;
-  padding: 30px;
-  border-radius: 16px;
-  max-width: 400px;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-  animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-  from { transform: translateY(-50px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-.modal-content h3 {
-  color: #ff9800;
-  margin: 0 0 15px 0;
-  font-size: 22px;
-}
-
-.modal-content p {
-  color: #4A4A4A;
-  font-size: 16px;
-  line-height: 1.5;
-  margin: 15px 0;
-}
-
-.modal-content .falta-monto {
-  font-size: 24px;
-  font-weight: bold;
-  color: #ff5722;
-  margin: 10px 0;
-}
-
-.modal-buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.modal-buttons button {
-  flex: 1;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  margin: 0;
-}
-
-.btn-volver {
-  background: #6c757d;
-  color: white;
-}
-
-.btn-volver:hover {
-  background: #5a6268;
-}
-
-.btn-continuar {
-  background: #ff9800;
-  color: white;
-}
-
-.btn-continuar:hover {
-  background: #e68900;
-}
 </style>
 </head>
 <body>
@@ -825,7 +702,7 @@ button[type="button"]:active {
 
 <div class="banner-carousel">
   <img src="https://i.imgur.com/d4etaOS.png" alt="Promo">
-  <img src="https://i.imgur.com/nFQgVJ7.png" alt="Envíos">
+  <img src="https://i.imgur.com/nFQgVJ7.png" alt="Retiro de pedidos">
 </div>
 
 <!-- Cartel de tienda cerrada (se muestra/oculta según SHOP_OPEN en el script) -->
@@ -861,27 +738,8 @@ button[type="button"]:active {
 <label for="name">Nombre</label>
 <input id="name" required type="text"/>
 
-<label for="address">Dirección</label>
-<input id="address" required type="text"/>
-
-<label for="timbre">Número de timbre / Depto / Piso</label>
-<input id="timbre" type="text" placeholder="Ej: 5A, timbre 18, piso 3 dto B"/>
-
-<label for="cross">Entre calles</label>
-<input id="cross" required type="text"/>
-
-<label for="localidad">Localidad *</label>
-<select id="localidad" required>
-  <option value="">Elegí tu localidad</option>
-  <option value="longchamps_burzaco">Longchamps / Burzaco</option>
-  <option value="glew">Glew</option>
-  <option value="adrogue_marmol_turdera">Adrogué / Marmol / Calzada / Turdera</option>
-  <option value="temperley_lavallol">Temperley / Claypole / Lavallol</option>
-  <option value="lomas_banfield">Lomas de Zamora / Banfield</option>
-  <option value="escalada_lanus">Escalada / Lanús</option>
-</select>
-
-<div id="infoEnvio"></div>
+<label for="horario">Horario de retiro</label>
+<input id="horario" required type="text" placeholder="Ej: mañana a las 10hs, o cuando puedan"/>
 
 <label for="notes">Aclaraciones</label>
 <textarea id="notes" rows="2"></textarea>
@@ -912,20 +770,6 @@ button[type="button"]:active {
 <div id="miniCartBar" onclick="toggleCarrito()">
   <span id="miniCartText">Carrito vacío</span>
   <span class="ver-pedido">Ver pedido</span>
-</div>
-
-<!-- Modal de confirmación de envío -->
-<div id="modalConfirmacion">
-  <div class="modal-content">
-    <h3>⚠️ ¡Espera un momento!</h3>
-    <p>Todavía no alcanzaste el <strong>envío GRATIS</strong></p>
-    <p class="falta-monto">Te faltan solo <span id="modalFalta">$0</span></p>
-    <p>¿Querés agregar algo más al carrito y ahorrar en el envío?</p>
-    <div class="modal-buttons">
-      <button class="btn-volver" type="button" onclick="cerrarModal()">Volver y agregar más</button>
-      <button class="btn-continuar" type="button" onclick="continuarSinEnvioGratis()">Continuar igual</button>
-    </div>
-  </div>
 </div>
 
 <script>
@@ -1044,20 +888,9 @@ const addToCartSound = new Audio('https://hacetupedido.github.io/Leke-tienda/se%
 const openCategorySound = new Audio('https://hacetupedido.github.io/Leke-tienda/categorías.mp3');
 const submitSound = new Audio('https://hacetupedido.github.io/Leke-tienda/WhatsApp.mp3');
 
-// ============ REGLAS DE ENVÍO ============
-const reglasEnvio = {
-  "longchamps_burzaco": { minimoGratis: 15000, costoEnvio: 2000, nombreMostrar: "Glew / Longchamps / Burzaco" },
-  "glew": { minimoGratis: 17000, costoEnvio: 5000, nombreMostrar: "Glew" },
-  "adrogue_marmol_turdera": { minimoGratis: 18000, costoEnvio: 4000, nombreMostrar: "Adrogué / Marmol / Turdera" },
-  "temperley_lavallol": { minimoGratis: 20000, costoEnvio: 5000, nombreMostrar: "Temperley / Lavallol" },
-  "lomas_banfield": { minimoGratis: 30000, costoEnvio: 6000, nombreMostrar: "Lomas de Zamora / Banfield" },
-  "escalada_lanus": { minimoGratis: 50000, costoEnvio: 10000, nombreMostrar: "Escalada / Lanús" }
-};
-
 // ============ ESTADO ============
 const container = document.getElementById("products");
 let cart = [];
-let pedidoPendiente = null;
 
 // Recuperar carrito guardado
 try {
@@ -1263,7 +1096,6 @@ function updateCartUI() {
   }
 
   guardarCarrito();
-  actualizarInfoEnvio();
 }
 
 // ============ CATEGORÍAS ============
@@ -1377,7 +1209,7 @@ function clearFieldError(el) {
 }
 
 function validarCampos() {
-  const requiredFields = ["name", "address", "cross", "localidad", "paymentMethod"];
+  const requiredFields = ["name", "horario", "paymentMethod"];
   let valid = true;
   let firstInvalid = null;
 
@@ -1399,7 +1231,7 @@ function validarCampos() {
   return valid;
 }
 
-["name", "address", "cross", "localidad", "paymentMethod"].forEach(id => {
+["name", "horario", "paymentMethod"].forEach(id => {
   const el = document.getElementById(id);
   el.addEventListener("input", () => clearFieldError(el));
   el.addEventListener("change", () => clearFieldError(el));
@@ -1419,15 +1251,9 @@ document.getElementById("orderForm").addEventListener("submit", function (e) {
   }
 
   const name = document.getElementById("name").value.trim();
-  const address = document.getElementById("address").value.trim();
-  const timbre = document.getElementById("timbre").value.trim() || "—";
-  const cross = document.getElementById("cross").value.trim();
+  const horario = document.getElementById("horario").value.trim();
   const notes = document.getElementById("notes").value.trim() || "—";
   const payment = document.getElementById("paymentMethod").value;
-
-  const localidadKey = document.getElementById("localidad").value;
-  const config = reglasEnvio[localidadKey] || { nombreMostrar: "No indicada", costoEnvio: "consultar", minimoGratis: 0 };
-  const localidadTexto = config.nombreMostrar || "No indicada";
 
   let message = "Hola Leke! Quiero hacer un pedido:\n\n";
   let subtotal = 0;
@@ -1452,56 +1278,26 @@ document.getElementById("orderForm").addEventListener("submit", function (e) {
     });
   }
 
-  let envioValor = 0;
-  let envioTexto = "consultar";
-
-  if (typeof config.costoEnvio === "number") {
-    if (subtotal >= config.minimoGratis) {
-      envioValor = 0;
-      envioTexto = "GRATIS 🎉";
-    } else {
-      envioValor = config.costoEnvio;
-      envioTexto = `$${config.costoEnvio.toLocaleString('es-AR')}`;
-    }
-  } else {
-    envioTexto = config.costoEnvio;
-  }
-
-  const totalFinal = subtotal + envioValor;
-
-  if (subtotal < config.minimoGratis && typeof config.costoEnvio === "number") {
-    const falta = config.minimoGratis - subtotal;
-    document.getElementById("modalFalta").textContent = `$${falta.toLocaleString('es-AR')}`;
-    pedidoPendiente = construirMensajeCompleto(message, subtotal, envioValor, envioTexto, totalFinal, name, address, timbre, cross, localidadTexto, notes, payment);
-    document.getElementById("modalConfirmacion").style.display = "flex";
-    return;
-  }
-
-  message = construirMensajeCompleto(message, subtotal, envioValor, envioTexto, totalFinal, name, address, timbre, cross, localidadTexto, notes, payment);
+  message = construirMensajeCompleto(message, subtotal, name, horario, notes, payment);
   enviarPorWhatsapp(message);
 });
 
-function construirMensajeCompleto(messageBase, subtotal, envioValor, envioTexto, totalFinal, name, address, timbre, cross, localidadTexto, notes, payment) {
+function construirMensajeCompleto(messageBase, subtotal, name, horario, notes, payment) {
   let message = messageBase;
 
-  message += `\nSubtotal (productos): $${subtotal.toLocaleString('es-AR')}\n`;
-  message += `Valor del envío: ${envioTexto}\n`;
-  message += `*Total a pagar: $${totalFinal.toLocaleString('es-AR')}*\n\n`;
+  message += `\n*Total a pagar: $${subtotal.toLocaleString('es-AR')}*\n\n`;
 
   if (payment === "transferencia") {
     message += `_*Datos para la transferencia:*_\n`;
     message += `_*Alias: leke.arg*_\n`;
     message += `_*Titular: Brenda de Oar*_\n\n`;
-    message += `Una vez realizada la transferencia, por favor enviame el comprobante para confirmar y preparar tu pedido lo antes posible. ¡Gracias! 😊\n\n`;
+    message += `Una vez realizada la transferencia, por favor enviame el comprobante para confirmar tu pedido. ¡Gracias! 😊\n\n`;
   } else {
-    message += `Pago en efectivo al momento de la entrega.\n\n`;
+    message += `Pago en efectivo al momento de retirar.\n\n`;
   }
 
   message += `👤 Nombre: ${name}\n`;
-  message += `📍 Dirección: ${address}\n`;
-  message += `🔔 Timbre / Depto / Piso: ${timbre}\n`;
-  message += `🚦 Entre calles: ${cross}\n`;
-  message += `📍 Localidad: ${localidadTexto}\n`;
+  message += `🕒 Horario de retiro: ${horario}\n`;
   message += `📝 Aclaraciones: ${notes}\n\n`;
   message += `💳 Pago: ${payment === "transferencia" ? "Transferencia" : "Efectivo"}\n\n`;
   message += "¡Muchas gracias! 😊";
@@ -1531,62 +1327,6 @@ function enviarPorWhatsapp(message) {
     submitBtn.textContent = originalText;
   }, 2500);
 }
-
-// ============ MODAL ENVÍO GRATIS ============
-function cerrarModal() {
-  document.getElementById("modalConfirmacion").style.display = "none";
-  pedidoPendiente = null;
-}
-
-function continuarSinEnvioGratis() {
-  if (pedidoPendiente) {
-    enviarPorWhatsapp(pedidoPendiente);
-  }
-  cerrarModal();
-}
-
-// ============ ENVÍO SEGÚN LOCALIDAD ============
-function actualizarInfoEnvio() {
-  const localidadKey = document.getElementById("localidad").value;
-  const infoDiv = document.getElementById("infoEnvio");
-
-  if (!localidadKey) {
-    infoDiv.style.display = "none";
-    return;
-  }
-
-  const config = reglasEnvio[localidadKey];
-  if (!config) {
-    infoDiv.style.display = "none";
-    return;
-  }
-
-  let total = 0;
-  cart.forEach(item => {
-    const precioStr = item.option.split("$")[1]?.replace(/[^0-9]/g, "") || "0";
-    const precio = parseInt(precioStr, 10) || 0;
-    total += precio * item.qty;
-  });
-
-  let texto = "";
-  const zona = config.nombreMostrar;
-  infoDiv.className = "";
-
-  if (total >= config.minimoGratis) {
-    texto = `🎉 ¡ENVÍO <strong>GRATIS</strong> a ${zona}! 🎉<br><small>(Superaste el mínimo de $${config.minimoGratis.toLocaleString('es-AR')})</small>`;
-    infoDiv.classList.add("envio-gratis");
-  } else {
-    const falta = config.minimoGratis - total;
-    texto = `⚠️ Te faltan solo <strong>$${falta.toLocaleString('es-AR')}</strong> para ENVÍO GRATIS<br>
-             <small>Envío a ${zona}: $${config.costoEnvio.toLocaleString('es-AR')} | Gratis desde $${config.minimoGratis.toLocaleString('es-AR')}</small>`;
-    infoDiv.classList.add("falta-envio");
-  }
-
-  infoDiv.innerHTML = texto;
-  infoDiv.style.display = "block";
-}
-
-document.getElementById("localidad").addEventListener("change", actualizarInfoEnvio);
 
 // ============ CARRUSEL DE BANNERS ============
 const carousel = document.querySelector('.banner-carousel');
